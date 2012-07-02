@@ -26,37 +26,47 @@ grunt.loadNpmTasks('grunt-imagine');
 
 ### pngmin task
 ```javascript
-// ... grunt file contents
-
-// ... even more grunt file contents
+pngmin: {
+  src: [
+    'src/*.png',
+    'src/img/*.png'
+  ],
+  dest: 'build'
+}
 ```
 
 ### gifmin task
 ```javascript
-// ... grunt file contents
-
-// ... even more grunt file contents
+gifmin: {
+  src: ['src/**/*.gif'],
+  dest: 'build'
+}
 ```
 
 ### jpgmin task
 ```javascript
-// ... grunt file contents
-
-// ... even more grunt file contents
+jpgmin: {
+  src: ['src/**/*.jpg'],
+  dest: 'build'
+}
 ```
 
 ### pngnq task
 ```javascript
-// ... grunt file contents
-
-// ... even more grunt file contents
+pngnq: {
+  src: ['src/**/icons*.png'],
+  dest: 'build'
+}
 ```
 
 ### inlineImg task
 ```javascript
-// ... grunt file contents
-
-// ... even more grunt file contents
+inlineImg: {
+  src: ['src/**/*.css', 'src/**/*.html'],
+  ie8: true,
+  base: 'build/img',
+  dest: 'build'
+}
 ```
 
 ## Release History
