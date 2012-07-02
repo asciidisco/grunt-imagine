@@ -5,6 +5,8 @@ Use [@cowboys](https://github.com/cowboy) js based optimizer [grunt](https://git
 [![Build Status](https://secure.travis-ci.org/asciidisco/grunt-imagine.png?branch=master)](http://travis-ci.org/asciidisco/grunt-imagine)
 
 ## Getting Started
+
+### IPlugin installation
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-imagine`
 
 Then add this line to your project's `grunt.js` gruntfile.
@@ -13,8 +15,35 @@ Then add this line to your project's `grunt.js` gruntfile.
 grunt.loadNpmTasks('grunt-imagine');
 ```
 
-### Resources
+### Installation of third party tools
+If you want to use the pngmin, jpgmin, gifmin or pngnq tasks,
+you need to have some third party tools installed & in your global PATH:
 
+It is enough if you have one tool per task installed,
+but if you provide more of them, grunt-imagine will recognize that
+and will try to use them, if they´ll help to shrink the filesize.
+
+Note: I will add more tools to the chain in the future,
+if you would like to see a tool in image, ping me.
+
+PNG tools:
++ [pngcrush](https://github.com/cowboy/grunt)
++ [pngout](https://github.com/cowboy/grunt)
++ [optipng](https://github.com/cowboy/grunt)
++ [cryopng](https://github.com/cowboy/grunt)
++ [advpng](https://github.com/cowboy/grunt)
++ [huffmix](https://github.com/cowboy/grunt)
+
+GIF tools:
++ [gifsicle](https://github.com/cowboy/grunt)
+
+JPEG tools:
++ [jpegtran](https://github.com/cowboy/grunt)
+
+PNGQUANT tools:
++ [pngnq](https://github.com/cowboy/grunt)
+
+### Resources
 + [grunt](https://github.com/cowboy/grunt)
 + [Getting started](https://github.com/cowboy/grunt/blob/master/docs/getting_started.md)
 
