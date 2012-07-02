@@ -6,7 +6,7 @@ Use [@cowboys](https://github.com/cowboy) js based optimizer [grunt](https://git
 
 ## Getting Started
 
-### IPlugin installation
+### Plugin installation
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-imagine`
 
 Then add this line to your project's `grunt.js` gruntfile.
