@@ -17,7 +17,9 @@ module.exports = function(grunt) {
             ext = null,
             imgPath = null,
             base = _.isUndefined(config.base) ? '' : config.base,
-            inlineImgPath = null;
+            inlineImgPath = null,
+            processedImages = 0,
+            match = [];
 
         // read css file contents
         css = fs.readFileSync(cssFile, 'utf-8');
@@ -25,7 +27,7 @@ module.exports = function(grunt) {
         // find all occurences of images in the css file
         while (match = imgRegex.exec(css)) {
             imgPath = path.join(path.dirname(cssFile), match[1]);
-            inlineImgPath = imgPath,
+            inlineImgPath = imgPath;
             processedImages = 0;
 
             // remove any query params from path (for cache busting etc.)
@@ -147,7 +149,7 @@ module.exports = function(grunt) {
 
         // check if there are usable tools
         if (numberOfTools === 0) {
-            grunt.helper('no tool installed', pngTools, task, done);
+            grunt.helper('no tool installed', tools, task, done);
         }
 
         processFinished = function () {
@@ -184,7 +186,7 @@ module.exports = function(grunt) {
         // check if folder exists else create
         checkMakeDir = function (dir) {
             try {
-                stats = fs.lstatSync(dir);
+                var stats = fs.lstatSync(dir);
                 if (!stats.isDirectory()) {
                     mkdirp(dir);
                 }

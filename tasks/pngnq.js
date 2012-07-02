@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 			done = this.async(),
 			pngToolsLookedUp = 0,
 			pngToolsToCheck = pngQuant.length,
+			quantToolFound = false,
 			files = grunt.file.expandFiles(config.src),
 			pngfiles = files.filter(function(file) {
 				return !!~png.indexOf(path.extname(file).toLowerCase());

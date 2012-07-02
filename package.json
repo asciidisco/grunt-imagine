@@ -27,7 +27,7 @@
     "node": ">=0.6.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt lint test --verbose"
   },
   "dependencies": {
     "grunt": "~0.3.9",
