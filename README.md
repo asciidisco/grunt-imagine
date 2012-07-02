@@ -26,22 +26,23 @@ and will try to use them, if they´ll help to shrink the filesize.
 Note: I will add more tools to the chain in the future,
 if you would like to see a tool in image, ping me.
 
-PNG tools:
-+ [pngcrush](https://github.com/cowboy/grunt)
-+ [pngout](https://github.com/cowboy/grunt)
-+ [optipng](https://github.com/cowboy/grunt)
-+ [cryopng](https://github.com/cowboy/grunt)
-+ [advpng](https://github.com/cowboy/grunt)
-+ [huffmix](https://github.com/cowboy/grunt)
+### PNG tools:
++ [pngcrush](http://pmt.sourceforge.net/pngcrush/)
++ [pngout Windows](http://advsys.net/ken/utils.htm)
++ [pngout *nix](http://www.jonof.id.au/kenutils)
++ [optipng](http://optipng.sourceforge.net/)
++ [cryopng](http://encode.ru/threads/1260-CryoPNG-short-introduction)
++ [advpng](http://advancemame.sourceforge.net/comp-download.html)
++ [huffmix](http://frdx.free.fr/huffmix/)
 
-GIF tools:
-+ [gifsicle](https://github.com/cowboy/grunt)
+### GIF tools:
++ [gifsicle](http://www.lcdf.org/gifsicle/)
 
-JPEG tools:
-+ [jpegtran](https://github.com/cowboy/grunt)
+### JPEG tools:
++ [jpegtran](http://jpegclub.org/jpegtran/)
 
-PNGQUANT tools:
-+ [pngnq](https://github.com/cowboy/grunt)
+### PNGQUANT tools:
++ [pngnq](http://pngnq.sourceforge.net/)
 
 ### Resources
 + [grunt](https://github.com/cowboy/grunt)
@@ -50,6 +51,16 @@ PNGQUANT tools:
 ## Documentation
 
 ### pngmin task
+If you would like to shrink the size (lossless) of your *.png files,
+set up a src description, where to find your original *.png files
+and a directory where you would like to store your optimized files.
+
+The task will take the original directory setup from your src directories,
+and will copy them over (even for subdirs).
+
+Warning!
+If the dest property is set equally to your src directory, imagine will override your files!
+
 ```javascript
 pngmin: {
   src: [
@@ -61,6 +72,16 @@ pngmin: {
 ```
 
 ### gifmin task
+If you would like to shrink the size (lossless) of your *.gif files,
+set up a src description, where to find your original *.gif files
+and a directory where you would like to store your optimized files.
+
+The task will take the original directory setup from your src directories,
+and will copy them over (even for subdirs).
+
+Warning!
+If the dest property is set equally to your src directory, imagine will override your files!
+
 ```javascript
 gifmin: {
   src: ['src/**/*.gif'],
@@ -69,6 +90,16 @@ gifmin: {
 ```
 
 ### jpgmin task
+If you would like to shrink the size (lossless) of your *.jpg files,
+set up a src description, where to find your original *.jpg files
+and a directory where you would like to store your optimized files.
+
+The task will take the original directory setup from your src directories,
+and will copy them over (even for subdirs).
+
+Warning!
+If the dest property is set equally to your src directory, imagine will override your files!
+
 ```javascript
 jpgmin: {
   src: ['src/**/*.jpg'],
@@ -77,6 +108,16 @@ jpgmin: {
 ```
 
 ### pngnq task
+If you would like to quantizize your PNG images in RGBA format,
+set up a src description, where to find your original *.png files
+and a directory where you would like to store your optimized files.
+
+The task will take the original directory setup from your src directories,
+and will copy them over (even for subdirs).
+
+Warning!
+If the dest property is set equally to your src directory, imagine will override your files!
+
 ```javascript
 pngnq: {
   src: ['src/**/icons*.png'],
@@ -85,6 +126,15 @@ pngnq: {
 ```
 
 ### inlineImg task
+If you would like to inline your images (data:uri/base64) in your *.css or *.png files,
+you can use the inlineImg task, just add a src, where imagine can
+find your *.css and/or *.html files.
+
+If you use absolute paths, use the base property to tell imagine, where
+it can find your images.
+
+If you set the ie8 flag to true, only images smaller than 32kb will be inlined. 
+
 ```javascript
 inlineImg: {
   src: ['src/**/*.css', 'src/**/*.html'],
@@ -93,6 +143,14 @@ inlineImg: {
   dest: 'build'
 }
 ```
+
+## Future (TODO)
+* Better documentation (Near future!)
+* JS only PNG optimizing
+* More JPG, PNG, GIF tools (ping me, if you knew good ones)
+* Using remote services alternativly (smush.it, tinypng.org)
+* GIF to PNG conversion (if smaller)
+* SpriteMap generation
 
 ## Release History
 
