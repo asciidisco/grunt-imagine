@@ -24,7 +24,7 @@
   "main": "grunt.js",
   "bin": "bin/grunt-imagine",
   "engines": {
-    "node": "0.6.5"
+    "node": ">=0.6.0"
   },
   "scripts": {
     "test": "grunt test"
