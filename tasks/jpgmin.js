@@ -7,6 +7,10 @@ module.exports = function(grunt) {
 
     // list of all executable jpeg optimizers
     var jpgTools = [{
+            executable: 'jpegoptim',
+            isAvailable: false,
+            flags: ['-f', '--strip-all', '<inputFile>', '<outputFolder>']
+        }, {
             executable: 'jpegtran',
             isAvailable: false,
             flags: ['-copy', 'none', '-optimize', '-progressive', '-outfile', '<outputFile>', '<inputFile>']

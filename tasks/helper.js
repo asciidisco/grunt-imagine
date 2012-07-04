@@ -218,7 +218,23 @@ module.exports = function(grunt) {
 
             processableTools.push(function (idx, file, fileOutput) {
                 var flags = _.map(toolsToProcessInf[toolId].flags, function (flag) {
-                return flag === '<inputFile>' ? (toolId !== 0 ? fileOutput : file) : (flag === '<outputFile>' ? fileOutput : flag); 
+                    var remappedFlags = '';
+
+                    switch (flag) {
+                        case '<inputFile>':
+                            remappedFlags = (toolId !== 0 ? fileOutput : file);
+                            break;
+                        case '<outputFile>':
+                            remappedFlags = fileOutput;
+                            break;
+                        case '<outputFolder>':
+                            remappedFlags = path.dirname(fileOutput);
+                            break;
+                        default:
+                            remappedFlags = flag;
+                            break;
+                    }
+                return remappedFlags;
             });
 
             var ls = grunt.utils.spawn({

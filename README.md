@@ -39,6 +39,7 @@ if you would like to see a tool in image, ping me.
 + [gifsicle](http://www.lcdf.org/gifsicle/)
 
 ### JPEG tools:
++ [jpegoptim](https://github.com/glennr/jpegoptim)
 + [jpegtran](http://jpegclub.org/jpegtran/)
 
 ### PNGQUANT tools:
