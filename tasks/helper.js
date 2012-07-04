@@ -243,7 +243,14 @@ module.exports = function(grunt) {
                     cmd: tool,
                     args: flags
                 }, function (error, result, code) {
-                    var targetFileExists = fs.readFileSync(fileOutput) ? true : false;
+                    var targetFileExists = null;
+                    if (error !== null) {
+                        try {
+                            targetFileExists = fs.readFileSync(fileOutput) ? true : false;
+                        } catch (e) {
+                            targetFileExists = false;
+                        }
+                    }
                     if (error && !targetFileExists) {
                         grunt.file.copy(file, fileOutput);
                         processNextTool(idx, toolId, file, fileOutput);
