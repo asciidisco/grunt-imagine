@@ -178,8 +178,10 @@ module.exports = function(grunt) {
             if (!_.isUndefined(processableTools[toolId + 1])) {
                 processableTools[toolId + 1](idx, file, fileOutput);
             } else {
-                compressedFileSizes[file] = String(fs.readFileSync(fileOutput)).length;
-                processNextFile(idx, file);
+                setTimeout(function() {
+                    compressedFileSizes[file] = String(fs.readFileSync(fileOutput)).length;
+                    processNextFile(idx, file);
+                }, 20);
             }
         };
 
@@ -241,7 +243,8 @@ module.exports = function(grunt) {
                     cmd: tool,
                     args: flags
                 }, function (error, result, code) {
-                    if (error) {
+                    var targetFileExists = fs.readFileSync(fileOutput) ? true : false;
+                    if (error && !targetFileExists) {
                         grunt.file.copy(file, fileOutput);
                         processNextTool(idx, toolId, file, fileOutput);
                     } else {
