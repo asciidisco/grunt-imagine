@@ -1,6 +1,6 @@
 var fs      = require('fs'),
     path    = require('path'),
-    which   = require('which');    
+    which   = require('which');
 
 module.exports = function(grunt) {
     var _ = grunt.utils._;
