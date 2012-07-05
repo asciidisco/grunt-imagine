@@ -14,6 +14,10 @@ module.exports = function(grunt) {
             executable: 'jpegtran',
             isAvailable: false,
             flags: ['-copy', 'none', '-optimize', '-progressive', '-outfile', '<outputFile>', '<inputFile>']
+        }, {
+            executable: 'jpegrescan',
+            isAvailable: false,
+            flags: ['<inputFile>', '<outputFile>']
         }];
 
 

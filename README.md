@@ -41,6 +41,7 @@ if you would like to see a tool in image, ping me.
 ### JPEG tools:
 + [jpegoptim](https://github.com/glennr/jpegoptim)
 + [jpegtran](http://jpegclub.org/jpegtran/)
++ [jpegrescan](https://github.com/kud/jpegrescan)
 
 ### PNGQUANT tools:
 + [pngnq](http://pngnq.sourceforge.net/)
@@ -154,6 +155,17 @@ inlineImg: {
 * SpriteMap generation
 
 ## Release History
+
+### 0.1.3
++ Added jpegrescan
++ Fixed bug related to issue #6 (output file is bigger than input)
+
+### 0.1.2
++ Added jpegoptim
++ Fixed gifsicle cmd argument failure
+
+### 0.1.1
++ Fixed pngnq cmd argument failure
 
 ### 0.1.0
 + Initial Release (jpgmin, gifmin, pngmin, inlineImg, pngnq)

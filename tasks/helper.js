@@ -96,7 +96,7 @@ module.exports = function(grunt) {
                     ext = imgPath.substr(imgPath.lastIndexOf('.') + 1);
                     html = html.replace(src, 'data:image/' + ext + ';base64,' + img);
                     processedImages++;
-                } 
+                }
             }
 
         });
@@ -144,7 +144,8 @@ module.exports = function(grunt) {
             processFinished = null,
             processNextFile = null,
             processNextTool = null,
-            checkMakeDir = null;
+            checkMakeDir = null,
+            currentFilesInProcess = {};
 
 
         // check if there are usable tools
@@ -161,12 +162,19 @@ module.exports = function(grunt) {
                 overallSizeUncompressed += uncompressedSize;
             });
 
+            currentFilesInProcess = {};
             grunt.log.ok('Compressed ' + files.length + ' files');
             grunt.log.ok('Uncompressed size: ' + (Math.round((overallSizeUncompressed / 1024) * 100) / 100) + 'kb, Compressed size: ' + (Math.round((overallSizeCompressed / 1024) * 100) / 100) + 'kb, Savings: ' + (Math.round((100 - (overallSizeCompressed / overallSizeUncompressed * 100)) * 100) / 100)  + '%');
             done();
         };
 
-        processNextFile = function (idx, file) {
+        processNextFile = function (idx, file, fileOutput) {
+            if (compressedFileSizes[file] > uncompressedFileSizes[file]) {
+                compressedFileSizes[file] = uncompressedFileSizes[file];
+                fs.writeFileSync(fileOutput, currentFilesInProcess[file]);
+            }
+
+
             if (!_.isUndefined(processableFiles[idx + 1])) {
                 processableFiles[idx + 1]();
             } else {
@@ -180,7 +188,7 @@ module.exports = function(grunt) {
             } else {
                 setTimeout(function() {
                     compressedFileSizes[file] = String(fs.readFileSync(fileOutput)).length;
-                    processNextFile(idx, file);
+                    processNextFile(idx, file, fileOutput);
                 }, 20);
             }
         };
@@ -204,12 +212,10 @@ module.exports = function(grunt) {
             fileOutput = path.normalize(dest + normalizedFile.substr(normalizedFile.indexOf('/'))),
             dir = path.dirname(fileOutput);
 
-            fs.readFile(file, function (err, data) {
-                uncompressedFileSizes[file] = String(data).length;
-            });
+            currentFilesInProcess[file] = fs.readFileSync(file);
+            uncompressedFileSizes[file] = String(currentFilesInProcess[file]).length;
 
             checkMakeDir(dir);
-
             processableFiles.push(function () {
                 processNextTool(idx, -1, file, fileOutput);
             });
