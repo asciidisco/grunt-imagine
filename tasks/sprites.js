@@ -111,7 +111,7 @@ module.exports = function(grunt) {
                       'See the grunt FAQ for PhantomJS installation instructions: ' +
                       'https://github.com/cowboy/grunt/blob/master/docs/faq.md'
                     );
-                    grunt.warn('PhantomJS not found.', options.code);
+                    grunt.warn('PhantomJS not found.', code);
                 } else {
                     // write image file
                     fs.writeFile(spriteMap, dataBuffer, done);
