@@ -146,13 +146,100 @@ inlineImg: {
 }
 ```
 
+### sprites (multi)task
+Imagine provides the ability to generate sprite maps and the
+corresponding css files. At the moment, only *.png files can be processed.
+
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['src/img/icons36/*.png'],
+          css: 'src/css/icons36.css',
+          map: 'src/img/icons36.png'
+      }
+  }
+```
+
+This configuration will generate an image named icons36.png in the
+'src/img' folder, which contains all of the *.png images found in the
+'src/img/icons36/' folder.
+
+Given that two matching images were found in the'src/img/icons36/' folder,
+named 'MyImage1.png' and 'MyImage2.png',
+the generated css file would look like this:
+
+```css
+.MyImage1, .MyImage2 {
+    background: url("../img/icon36.png") no-repeat;
+}
+
+.MyImage1 {
+    background-position: 0 -432px;
+}
+
+.MyImage2 {
+    background-position: 0 -396px;
+}
+
+```
+
+Additionally you can add a css class prefix:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['src/img/icons36/*.png'],
+          css: 'src/css/icons36.css',
+          map: 'src/img/icons36.png',
+          classPrefix: 'Icon'
+      }
+  }
+```
+
+which would generate smth. like this:
+
+```css
+.Icon-MyImage1, .Icon-MyImage2 {
+    background: url("../img/icon36.png") no-repeat;
+}
+
+.Icon-MyImage1 {
+    background-position: 0 -432px;
+}
+
+.Icon-MyImage2 {
+    background-position: 0 -396px;
+}
+
+```
+
+The images will be sprited vertically, so you might need to set
+up some margin to give´em some space:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['src/img/icons36/*.png'],
+          css: 'src/css/icons36.css',
+          map: 'src/img/icons36.png',
+          classPrefix: 'Icon',
+          margin: 15
+      }
+  }
+```
+
+Now you´re images will be places with 15 px of space between them.
+
+This task doesn´t depend on any external libraries, except for
+PhantomJS, which the most of you should have installed if you´re using grunt.
+
 ## Future (TODO)
 * Better documentation (Near future!)
 * JS only PNG optimizing
 * More JPG, PNG, GIF tools (ping me, if you knew good ones)
 * Using remote services alternativly (smush.it, tinypng.org)
 * GIF to PNG conversion (if smaller)
-* SpriteMap generation
 
 ## Release History
 
