@@ -1,7 +1,7 @@
 {
   "name": "grunt-imagine",
-  "description": "Grunt tasks for optimizing & inlining images",
-  "version": "0.1.3",
+  "description": "Grunt tasks for optimizing, inlining & spriting images",
+  "version": "0.2.0",
   "homepage": "http://asciidisco.github.com/grunt-imagine/",
   "author": {
     "name": "asciidisco",
