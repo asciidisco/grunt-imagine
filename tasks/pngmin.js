@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         },{
             executable: 'optipng',
             isAvailable: false,
-            flags: ['<inputFile>', '<outputFile>']
+            flags: ['<inputFile>', '-out', '<outputFile>']
         },{
             executable: 'cryopng',
             isAvailable: false,
