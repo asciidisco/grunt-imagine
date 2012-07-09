@@ -244,7 +244,7 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 ## Release History
 
 ### 0.2.0
-+ Added basic spriting feature
++ Added basic spriting feature (for pngs)
 
 ### 0.1.3
 + Added jpegrescan
