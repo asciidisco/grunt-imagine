@@ -1,4 +1,3 @@
-
 var fs      = require('fs'),
     path    = require('path'),
     mkdirp  = require('mkdirp'),
@@ -145,7 +144,8 @@ module.exports = function(grunt) {
             processNextFile = null,
             processNextTool = null,
             checkMakeDir = null,
-            currentFilesInProcess = {};
+            currentFilesInProcess = {},
+            pathSeparator = process.platform === 'win32' ? '\\' : '/';
 
 
         // check if there are usable tools
@@ -205,11 +205,11 @@ module.exports = function(grunt) {
             }
         };
 
-        // generat list of files to process
+        // generate list of files to process
         files.forEach(function (file, idx) {
             var normalizedFile = path.normalize(file),
             
-            fileOutput = path.normalize(dest + normalizedFile.substr(normalizedFile.indexOf('/'))),
+            fileOutput = path.normalize(dest + normalizedFile.substr(normalizedFile.indexOf(pathSeparator))),
             dir = path.dirname(fileOutput);
 
             currentFilesInProcess[file] = fs.readFileSync(file);
