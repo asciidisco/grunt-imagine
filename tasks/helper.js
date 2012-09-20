@@ -1,7 +1,8 @@
 var fs      = require('fs'),
     path    = require('path'),
     mkdirp  = require('mkdirp'),
-    jQuery  = require('jQuery');
+    jQuery  = require('jQuery'),
+    mime    = require('mime');
 
 // Helpers for image tasks
 
@@ -45,14 +46,15 @@ module.exports = function(grunt) {
                     }
                 
                     // replace file with bas64 data
-                    ext = path.extname(inlineImgPath).substr(imgPath.lastIndexOf('.'));
+
+                    mimetype = mime.lookup(inlineImgPath);
 
                     // check file size and ie8 compat mode
                     if (img.length > 32768 && config.ie8 === true) {
                         // i hate to write this, but can´t wrap my head around
                         // how to do this better: DO NOTHING
                     } else {
-                        css = css.replace(match[1], 'data:image/' + ext + ';base64,' + img);
+                        css = css.replace(match[1], 'data:' + mimetype + ';base64,' + img);
                         processedImages++;
                     }
                 } catch (err) {
