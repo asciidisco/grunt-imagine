@@ -1,7 +1,8 @@
 var fs      = require('fs'),
     path    = require('path'),
     mkdirp  = require('mkdirp'),
-    jQuery  = require('jQuery');
+    jQuery  = require('jQuery'),
+    mime    = require('mime');
 
 // Helpers for image tasks
 
@@ -18,7 +19,8 @@ module.exports = function(grunt) {
             base = _.isUndefined(config.base) ? '' : config.base,
             inlineImgPath = null,
             processedImages = 0,
-            match = [];
+            match = [],
+            mimetype = null;
 
         // read css file contents
         css = fs.readFileSync(cssFile, 'utf-8');
@@ -27,7 +29,6 @@ module.exports = function(grunt) {
         while (match = imgRegex.exec(css)) {
             imgPath = path.join(path.dirname(cssFile), match[1]);
             inlineImgPath = imgPath;
-            processedImages = 0;
 
             // remove any query params from path (for cache busting etc.)
             if (imgPath.lastIndexOf('?') !== -1) {
@@ -45,14 +46,15 @@ module.exports = function(grunt) {
                     }
                 
                     // replace file with bas64 data
-                    ext = path.extname(inlineImgPath).substr(imgPath.lastIndexOf('.'));
+
+                    mimetype = mime.lookup(inlineImgPath);
 
                     // check file size and ie8 compat mode
                     if (img.length > 32768 && config.ie8 === true) {
                         // i hate to write this, but can´t wrap my head around
                         // how to do this better: DO NOTHING
                     } else {
-                        css = css.replace(match[1], 'data:image/' + ext + ';base64,' + img);
+                        css = css.replace(match[1], 'data:' + mimetype + ';base64,' + img);
                         processedImages++;
                     }
                 } catch (err) {
@@ -79,7 +81,8 @@ module.exports = function(grunt) {
             var src = jQuery(elm).attr('src'),
                 imgPath = null,
                 img = null,
-                ext = null;
+                ext = null,
+                mimetype = null;
             
             // check if the image src is already a data attribute
             if (src.substr(0, 5) !== 'data:') {
@@ -87,13 +90,14 @@ module.exports = function(grunt) {
                 imgPath = path.join(path.dirname(htmlFile), src);
                 img = fs.readFileSync(imgPath, 'base64');
 
+                mimetype = mime.lookup(inlineImgPath);
+
                 // check file size and ie8 compat mode
                 if (img.length > 32768 && config.ie8 === true) {
                     // i hate to write this, but can´t wrap my head around
                     // how to do this better: DO NOTHING
                 } else {
-                    ext = imgPath.substr(imgPath.lastIndexOf('.') + 1);
-                    html = html.replace(src, 'data:image/' + ext + ';base64,' + img);
+                    html = html.replace(src, 'data:' + mimetype + ';base64,' + img);
                     processedImages++;
                 }
             }
