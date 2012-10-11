@@ -15,13 +15,12 @@ module.exports = function(grunt) {
             css = null,
             img = null,
             ext = null,
+            inlineImgPath = null,
             imgPath = null,
             base = _.isUndefined(config.base) ? '' : config.base,
             processedImages = 0,
             match = [],
             mimetype = null;
-
-        var inlineImgPath = null;
 
         // read css file contents
         css = fs.readFileSync(cssFile, 'utf-8');
@@ -83,7 +82,8 @@ module.exports = function(grunt) {
                 imgPath = null,
                 img = null,
                 ext = null,
-                mimetype = null;
+                mimetype = null,
+                inlineImgPath = null;
 
             // check if the image src is already a data attribute
             if (src.substr(0, 5) !== 'data:') {
