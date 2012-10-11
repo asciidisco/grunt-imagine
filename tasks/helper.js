@@ -17,10 +17,11 @@ module.exports = function(grunt) {
             ext = null,
             imgPath = null,
             base = _.isUndefined(config.base) ? '' : config.base,
-            inlineImgPath = null,
             processedImages = 0,
             match = [],
             mimetype = null;
+
+        var inlineImgPath = null;
 
         // read css file contents
         css = fs.readFileSync(cssFile, 'utf-8');
@@ -44,7 +45,7 @@ module.exports = function(grunt) {
                     } catch (err) {
                         img = fs.readFileSync(base + '/' + path.basename(inlineImgPath), 'base64');
                     }
-                
+
                     // replace file with bas64 data
 
                     mimetype = mime.lookup(inlineImgPath);
@@ -83,7 +84,7 @@ module.exports = function(grunt) {
                 img = null,
                 ext = null,
                 mimetype = null;
-            
+
             // check if the image src is already a data attribute
             if (src.substr(0, 5) !== 'data:') {
                 // figure out the image path and load it
@@ -115,15 +116,15 @@ module.exports = function(grunt) {
     grunt.registerHelper('no tool installed', function(tools, task, cb) {
         grunt.verbose.or.writeln();
         grunt.log.write('Running ' + _.pluck(tools, 'executable').join(', ') + '...').error();
-        
+
         grunt.log.errorlns([
             'In order for this task to work properly, one of these tools ":tools" must be',
             'installed and in the system PATH (if you can run one of these commands ":tools" at',
             'the command line, this task should work)'
             ].join(' ').replace(/:tools/g, _.pluck(tools, 'executable').join(', ')));
-    
+
         grunt.log.subhead(('Skiping {{task}} task').replace('{{task}}', task));
-        
+
         // execute callback if given
         if(_.isFunction(cb)) {
             cb();
@@ -212,7 +213,7 @@ module.exports = function(grunt) {
         // generate list of files to process
         files.forEach(function (file, idx) {
             var normalizedFile = path.normalize(file),
-            
+
             fileOutput = path.normalize(dest + normalizedFile.substr(normalizedFile.indexOf(pathSeparator))),
             dir = path.dirname(fileOutput);
 

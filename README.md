@@ -135,7 +135,7 @@ find your *.css and/or *.html files.
 If you use absolute paths, use the base property to tell imagine, where
 it can find your images.
 
-If you set the ie8 flag to true, only images smaller than 32kb will be inlined. 
+If you set the ie8 flag to true, only images smaller than 32kb will be inlined.
 
 ```javascript
 inlineImg: {
@@ -243,6 +243,12 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 
 ## Release History
 
+### 0.2.1
++ Fixing the travis build
++ Additions from commit #12 (@dethtron5000)
+  - the mime type wasn't always properly injected into the data URI
+  - the processed file counts weren't updated properly during the same task
+
 ### 0.2.0
 + Added basic spriting feature (for pngs)
 
@@ -261,5 +267,5 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 + Initial Release (jpgmin, gifmin, pngmin, inlineImg, pngnq)
 
 ## License
-Copyright (c) 2012 asciidisco  
+Copyright (c) 2012 asciidisco
 Licensed under the MIT license.
