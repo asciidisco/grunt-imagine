@@ -243,6 +243,9 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 
 ## Release History
 
+### 0.2.2
++ Fixes Issue #5 (Thx to @dominicbarnes)
+
 ### 0.2.1
 + Fixing the travis build
 + Additions from commit #12 (@dethtron5000)
