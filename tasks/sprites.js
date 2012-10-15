@@ -2,7 +2,8 @@ var fs      = require('fs'),
     path    = require('path'),
     which   = require('which'),
     util    = require('util'),
-    spawn   = require('child_process').spawn;
+    spawn   = require('child_process').spawn,
+    async   = require('async');
 
 module.exports = function(grunt) {
     var _ = grunt.utils._;
@@ -10,11 +11,10 @@ module.exports = function(grunt) {
     // generates png sprite maps and corresponding css files
     grunt.registerMultiTask('sprites', 'Generate sprite maps and css files from png images', function () {
         var done = this.async(),
-            images = grunt.file.expand(this.data.src),
-            allImages = [],
+            images = _.filter(grunt.file.expand(this.data.src), function (file) {
+                return path.extname(file) === ".png";
+            }),
             processedImageFiles = [],
-            imageCount = images.length,
-            imagesRead = 0,
             cssFile =  this.data.css,
             spriteMap = this.data.map,
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
@@ -30,25 +30,22 @@ module.exports = function(grunt) {
         }
 
         // load all files that should be sprited
-        images.forEach(function (image) {
-            // check if the files are pngs
-            // else decrease the file count
-            if (path.extname(image) === '.png') {
-                // read image file contents
-                fs.readFile(image, function (err, data) {
-                    imagesRead++;
-                    // load image data as base64
-                    allImages.push(data.toString('base64'));
-                    // add the image filename to the processed images array
-                    processedImageFiles.push(image);
-                    // check if all images are processed
-                    if (imagesRead === (imageCount -1)) {
-                        runSpriteGenerator(allImages);
-                    }
-                });
-            } else {
-                imageCount--;
+        async.map(images, function (image, done) {
+            // read image file contents
+            fs.readFile(image, function (err, data) {
+                if (err) {
+                    return done(err);
+                }
+
+                processedImageFiles.push(image);
+                done(null, data.toString('base64'));
+            });
+        }, function (err, images) {
+            if (err) {
+                throw new Error(err);
             }
+
+            runSpriteGenerator(images);
         });
 
         function generateCSSFile (imageData, images) {
@@ -100,7 +97,7 @@ module.exports = function(grunt) {
             ps.on('exit', function (code) {
                 var incomingData = JSON.parse(externalData.replace('<<<<ENDIMAGE', '')),
                     dataBuffer = new Buffer(incomingData.image.replace(/^data:image\/png;base64,/, ''), 'base64');
-                
+
                 // check if phantom could be called
                 if (code === 127) {
                     grunt.log.errorlns(
