@@ -1,6 +1,6 @@
 # grunt-imagine
 
-Use [@cowboys](https://github.com/cowboy) js based optimizer [grunt](https://github.com/cowboy/grunt) to optimize (and or inline) your projects image resources.
+Use [@cowboys](https://github.com/cowboy) js based optimizer [grunt](https://github.com/gruntjs/grunt) to optimize (and or inline) your projects image resources.
 
 [![Build Status](https://secure.travis-ci.org/asciidisco/grunt-imagine.png?branch=master)](http://travis-ci.org/asciidisco/grunt-imagine)
 
@@ -47,8 +47,8 @@ if you would like to see a tool in image, ping me.
 + [pngnq](http://pngnq.sourceforge.net/)
 
 ### Resources
-+ [grunt](https://github.com/cowboy/grunt)
-+ [Getting started](https://github.com/cowboy/grunt/blob/master/docs/getting_started.md)
++ [grunt](https://github.com/gruntjs/grunt)
++ [Getting started](https://github.com/gruntjs/grunt/blob/master/docs/getting_started.md)
 
 ## Documentation
 
