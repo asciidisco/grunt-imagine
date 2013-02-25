@@ -7,110 +7,7 @@ var fs      = require('fs'),
 // Helpers for image tasks
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
-
-    // inline images as base64 in css files
-    grunt.registerHelper('inline_images_css', function(cssFile, config, cb) {
-        var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi,
-            css = null,
-            img = null,
-            ext = null,
-            inlineImgPath = null,
-            imgPath = null,
-            base = _.isUndefined(config.base) ? '' : config.base,
-            processedImages = 0,
-            match = [],
-            mimetype = null;
-
-        // read css file contents
-        css = fs.readFileSync(cssFile, 'utf-8');
-
-        // find all occurences of images in the css file
-        while (match = imgRegex.exec(css)) {
-            imgPath = path.join(path.dirname(cssFile), match[1]);
-            inlineImgPath = imgPath;
-
-            // remove any query params from path (for cache busting etc.)
-            if (imgPath.lastIndexOf('?') !== -1) {
-                inlineImgPath = imgPath.substr(0, imgPath.lastIndexOf('?'));
-            }
-            // make sure that were only importing images
-            if (path.extname(inlineImgPath) !== '.css') {
-                try {
-                    // try to load the file without a given base path,
-                    // if that doesn´t work, try with
-                    try {
-                        img = fs.readFileSync(inlineImgPath, 'base64');
-                    } catch (err) {
-                        img = fs.readFileSync(base + '/' + path.basename(inlineImgPath), 'base64');
-                    }
-
-                    // replace file with bas64 data
-
-                    mimetype = mime.lookup(inlineImgPath);
-
-                    // check file size and ie8 compat mode
-                    if (img.length > 32768 && config.ie8 === true) {
-                        // i hate to write this, but can´t wrap my head around
-                        // how to do this better: DO NOTHING
-                    } else {
-                        css = css.replace(match[1], 'data:' + mimetype + ';base64,' + img);
-                        processedImages++;
-                    }
-                } catch (err) {
-                    // Catch image file not found error
-                    grunt.verbose.error('Image file not found: ' + match[1]);
-                }
-            }
-        }
-
-        // check if a callback is given
-        if (_.isFunction(cb)) {
-            grunt.log.ok('Inlined: ' + processedImages + ' Images in file: ' + cssFile);
-            cb(cssFile, css);
-        }
-    });
-
-    // inline images as base64 in html files
-    grunt.registerHelper('inline_images_html', function(htmlFile, config, cb) {
-        var html = fs.readFileSync(htmlFile, 'utf-8'),
-            processedImages = 0;
-
-        // grab all <img/> elements from the document
-        jQuery(html).find('img').each(function (idx, elm) {
-            var src = jQuery(elm).attr('src'),
-                imgPath = null,
-                img = null,
-                ext = null,
-                mimetype = null,
-                inlineImgPath = null;
-
-            // check if the image src is already a data attribute
-            if (src.substr(0, 5) !== 'data:') {
-                // figure out the image path and load it
-                imgPath = path.join(path.dirname(htmlFile), src);
-                img = fs.readFileSync(imgPath, 'base64');
-
-                mimetype = mime.lookup(inlineImgPath);
-
-                // check file size and ie8 compat mode
-                if (img.length > 32768 && config.ie8 === true) {
-                    // i hate to write this, but can´t wrap my head around
-                    // how to do this better: DO NOTHING
-                } else {
-                    html = html.replace(src, 'data:' + mimetype + ';base64,' + img);
-                    processedImages++;
-                }
-            }
-
-        });
-
-        // check if a callback is given
-        if (_.isFunction(cb)) {
-            grunt.log.ok('Inlined: ' + processedImages + ' Images in file: ' + htmlFile);
-            cb(htmlFile, html);
-        }
-    });
+    var _ = grunt.util._;
 
     // helper that outputs if executables are missing
     grunt.registerHelper('no tool installed', function(tools, task, cb) {
@@ -132,7 +29,7 @@ module.exports = function(grunt) {
     });
 
     // helper for batch processing a couple of files with a list of available tools
-    grunt.registerHelper('process_image_files', function(tools, files, dest, task, done) {
+    grunt.helper('process_image_files', function(tools, files, dest, task, done) {
         var toolsToProcessInf = _.compact(_.map(tools, function (tool) {
                     if (tool.isAvailable === true) {
                         return tool;
