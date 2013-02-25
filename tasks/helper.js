@@ -7,10 +7,10 @@ var fs      = require('fs'),
 // Helpers for image tasks
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
+    var _ = grunt.util._;
 
     // inline images as base64 in css files
-    grunt.registerHelper('inline_images_css', function(cssFile, config, cb) {
+    grunt.helper('inline_images_css', function(cssFile, config, cb) {
         var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi,
             css = null,
             img = null,
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
     });
 
     // inline images as base64 in html files
-    grunt.registerHelper('inline_images_html', function(htmlFile, config, cb) {
+    grunt.helper('inline_images_html', function(htmlFile, config, cb) {
         var html = fs.readFileSync(htmlFile, 'utf-8'),
             processedImages = 0;
 
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
     });
 
     // helper for batch processing a couple of files with a list of available tools
-    grunt.registerHelper('process_image_files', function(tools, files, dest, task, done) {
+    grunt.helper('process_image_files', function(tools, files, dest, task, done) {
         var toolsToProcessInf = _.compact(_.map(tools, function (tool) {
                     if (tool.isAvailable === true) {
                         return tool;

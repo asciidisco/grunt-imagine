@@ -3,7 +3,7 @@ var fs      = require('fs'),
     which   = require('which');    
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
+    var _ = grunt.util._;
 
     // list of all executable gif optimizers 
     var gifTools = [{

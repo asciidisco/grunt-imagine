@@ -8,7 +8,7 @@ var fs      = require('fs'),
 
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
+    var _ = grunt.util._;
 
     // list of all executable png optimization tools 
     var pngTools = [{
