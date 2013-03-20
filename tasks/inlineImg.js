@@ -4,7 +4,6 @@ var fs      = require('fs'),
 module.exports = function(grunt) {
     var _ = grunt.util._;
 
-
     // inline images as base64 in css files
     var inline_images_css = function(cssFile, config, cb) {
         var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi,
