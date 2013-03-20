@@ -1,6 +1,7 @@
 var fs      = require('fs'),
     path    = require('path'),
-    which   = require('which');    
+    which   = require('which');
+    helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
     var _ = grunt.util._;
@@ -37,11 +38,9 @@ module.exports = function(grunt) {
 				gifToolsLookedUp++;
 
 				if (gifToolsLookedUp === gifToolsToCheck) {
-					grunt.helper('process_image_files', gifTools, giffiles, dest, 'gifmin', done);
+					helpers.processImageFiles(gifTools, giffiles, dest, 'gifmin', done);
 				}
 			});
 		});
-
 	});
-
 };

@@ -1,6 +1,7 @@
 var fs      = require('fs'),
     path    = require('path'),
     which   = require('which');
+    helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
     var _ = grunt.util._;
@@ -46,7 +47,7 @@ module.exports = function(grunt) {
 				jpgToolsLookedUp++;
 
 				if (jpgToolsLookedUp === jpgToolsToCheck) {
-					grunt.helper('process_image_files', jpgTools, jpgfiles, dest, 'jpgmin', done);
+					helpers.processImageFiles(jpgTools, jpgfiles, dest, 'jpgmin', done);
 				}
 			});
 		});

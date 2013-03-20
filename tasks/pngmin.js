@@ -1,7 +1,8 @@
 
 var fs      = require('fs'),
     path    = require('path'),
-    which   = require('which');
+    which   = require('which'),
+    helpers = require('../lib/helpers');
 
 // This task takes care of img optimizations by running a set of
 // `.png` optimizers.
@@ -62,7 +63,7 @@ module.exports = function(grunt) {
                 pngToolsLookedUp++;
 
                 if (pngToolsLookedUp === pngToolsToCheck) {
-                     grunt.helper('process_image_files', pngTools, pngfiles, dest, 'pngmin', done);
+                     grunt.helpers.processImageFiles(pngTools, pngfiles, dest, 'pngmin', done);
                 }
             });
         });
