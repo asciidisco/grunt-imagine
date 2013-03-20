@@ -9,7 +9,8 @@ var fs      = require('fs'),
 
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
+    var _ = grunt.util._,
+        processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable png optimization tools 
     var pngTools = [{
@@ -63,7 +64,7 @@ module.exports = function(grunt) {
                 pngToolsLookedUp++;
 
                 if (pngToolsLookedUp === pngToolsToCheck) {
-                     grunt.helpers.processImageFiles(pngTools, pngfiles, dest, 'pngmin', done);
+                    processImageFiles(pngTools, pngfiles, dest, 'pngmin', done);
                 }
             });
         });

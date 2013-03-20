@@ -1,10 +1,11 @@
 var fs      = require('fs'),
     path    = require('path'),
-    which   = require('which');
+    which   = require('which'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
+    var _ = grunt.util._,
+        processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable gif optimizers 
     var gifTools = [{
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
 				gifToolsLookedUp++;
 
 				if (gifToolsLookedUp === gifToolsToCheck) {
-					helpers.processImageFiles(gifTools, giffiles, dest, 'gifmin', done);
+					processImageFiles(gifTools, giffiles, dest, 'gifmin', done);
 				}
 			});
 		});

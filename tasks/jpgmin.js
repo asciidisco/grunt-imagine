@@ -4,7 +4,8 @@ var fs      = require('fs'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
+    var _ = grunt.util._,
+        processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable jpeg optimizers
     var jpgTools = [{
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
 				jpgToolsLookedUp++;
 
 				if (jpgToolsLookedUp === jpgToolsToCheck) {
-					helpers.processImageFiles(jpgTools, jpgfiles, dest, 'jpgmin', done);
+					processImageFiles(jpgTools, jpgfiles, dest, 'jpgmin', done);
 				}
 			});
 		});
