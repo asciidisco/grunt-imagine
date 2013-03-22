@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     var jpgTools = [{
             executable: 'jpegoptim',
             isAvailable: false,
-            flags: ['-f', '--strip-all', '<inputFile>', '<outputFolder>']
+            flags: ['-f', '--strip-all', '<quality>', '<inputFile>', '<outputFolder>']
         }, {
             executable: 'jpegtran',
             isAvailable: false,
@@ -29,6 +29,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('jpgmin', 'Optimizes .jpg images', function () {
 		var config = grunt.config('jpgmin'),
 			dest = config.dest,
+			quality = config.quality,
 			done = this.async(),
 			jpgToolsLookedUp = 0,
 			jpgToolsToCheck = jpgTools.length,
@@ -48,7 +49,7 @@ module.exports = function(grunt) {
 				jpgToolsLookedUp++;
 
 				if (jpgToolsLookedUp === jpgToolsToCheck) {
-					processImageFiles(jpgTools, jpgfiles, dest, 'jpgmin', done);
+					processImageFiles(jpgTools, jpgfiles, dest, quality, 'jpgmin', done);
 				}
 			});
 		});
