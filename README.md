@@ -109,6 +109,17 @@ jpgmin: {
 }
 ```
 
+If you would like to use lossy compression via `jpegoptim`'s `-m` flag, you can 
+add a `quality` configuration option:
+
+```javascript
+jpgmin: {
+  src: ['src/**/*.jpg'],
+  dest: 'build',
+  quality: 80 // use lossy JPEG compression at 80% quality
+}
+```
+
 ### pngnq task
 If you would like to quantizize your PNG images in RGBA format,
 set up a src description, where to find your original *.png files
