@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 			done = this.async(),
 			jpgToolsLookedUp = 0,
 			jpgToolsToCheck = jpgTools.length,
-			files = grunt.file.expandFiles(config.src),
+			files = grunt.file.expand(config.src),
 			jpgfiles = files.filter(function(file) {
 				return !!~jpg.indexOf(path.extname(file).toLowerCase());
 			});
