@@ -1,5 +1,6 @@
 var fs      = require('fs'),
-    path    = require('path');
+    path    = require('path'),
+    mime    = require('mime');
 
 module.exports = function(grunt) {
     var _ = grunt.util._;
