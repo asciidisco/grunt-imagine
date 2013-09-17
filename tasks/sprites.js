@@ -6,7 +6,7 @@ var fs      = require('fs'),
     async   = require('async');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
+    var _ = grunt.utils._;
 
     // generates png sprite maps and corresponding css files
     grunt.registerMultiTask('sprites', 'Generate sprite maps and css files from png images', function () {

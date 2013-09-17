@@ -2,7 +2,7 @@ var fs      = require('fs'),
     path    = require('path');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
+    var _ = grunt.utils._;
 
     // inline images as base64 in css files
     var inline_images_css = function(cssFile, config, cb) {
