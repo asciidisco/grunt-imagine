@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     var gifTools = [{
             executable: 'gifsicle',
             isAvailable: false,
-            flags: ['-O2', '<inputFile>', '-outfile', '<outputFile>']
+            flags: ['-O2', '<inputFile>', '-o', '<outputFile>']
         }];
 
     var gif = ['.gif'];
