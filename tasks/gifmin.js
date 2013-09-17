@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 				gifToolsLookedUp++;
 
 				if (gifToolsLookedUp === gifToolsToCheck) {
-					processImageFiles(gifTools, giffiles, dest, 'gifmin', done);
+					processImageFiles(gifTools, giffiles, dest, '', 'gifmin', done);
 				}
 			});
 		});
