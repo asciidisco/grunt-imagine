@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     var jpgTools = [{
             executable: 'jpegoptim',
             isAvailable: false,
-            flags: ['-f', '--strip-all', '<quality>', '<inputFile>', '<outputFolder>']
+            flags: ['-f', '--strip-all', '<quality>', '<inputFile>', '-d', '<outputFolder>']
         }, {
             executable: 'jpegtran',
             isAvailable: false,
