@@ -64,7 +64,7 @@ module.exports = function(grunt) {
                 pngToolsLookedUp++;
 
                 if (pngToolsLookedUp === pngToolsToCheck) {
-                    processImageFiles(pngTools, pngfiles, dest, 'pngmin', done);
+                    processImageFiles(pngTools, pngfiles, dest, '', 'pngmin', done);
                 }
             });
         });
