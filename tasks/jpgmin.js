@@ -4,14 +4,14 @@ var fs      = require('fs'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._,
+    var _ = grunt.utils._,
         processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable jpeg optimizers
     var jpgTools = [{
             executable: 'jpegoptim',
             isAvailable: false,
-            flags: ['-f', '--strip-all', '<quality>', '<inputFile>', '<outputFolder>']
+            flags: ['-f', '--strip-all', '<quality>', '<inputFile>', '-d', '<outputFolder>']
         }, {
             executable: 'jpegtran',
             isAvailable: false,

@@ -4,14 +4,14 @@ var fs      = require('fs'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._,
+    var _ = grunt.utils._,
         processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable gif optimizers 
     var gifTools = [{
             executable: 'gifsicle',
             isAvailable: false,
-            flags: ['-O2', '<inputFile>', '-outfile', '<outputFile>']
+            flags: ['-O2', '<inputFile>', '-o', '<outputFile>']
         }];
 
     var gif = ['.gif'];
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 				gifToolsLookedUp++;
 
 				if (gifToolsLookedUp === gifToolsToCheck) {
-					processImageFiles(gifTools, giffiles, dest, 'gifmin', done);
+					processImageFiles(gifTools, giffiles, dest, '', 'gifmin', done);
 				}
 			});
 		});
