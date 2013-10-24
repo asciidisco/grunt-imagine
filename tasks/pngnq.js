@@ -4,7 +4,7 @@ var fs      = require('fs'),
     helpers  = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._,
+    var _ = grunt.util._,
         processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable tools for png quantifying
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 			pngToolsLookedUp = 0,
 			pngToolsToCheck = pngQuant.length,
 			quantToolFound = false,
-			files = grunt.file.expandFiles(config.src),
+			files = grunt.file.expand({filter: 'isFile'}, config.src),
 			pngfiles = files.filter(function(file) {
 				return !!~png.indexOf(path.extname(file).toLowerCase());
 			});
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 				pngToolsLookedUp++;
 
 				if (pngToolsLookedUp === pngToolsToCheck) {
-					processImageFiles(pngQuant, pngfiles, dest, 'pngnq', done);
+					processImageFiles(pngQuant, pngfiles, dest, '', 'pngnq', done);
 				}
 			});
 		});

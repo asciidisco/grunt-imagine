@@ -4,7 +4,7 @@ var fs      = require('fs'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._,
+    var _ = grunt.util._,
         processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable gif optimizers 
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 			done = this.async(),
 			gifToolsLookedUp = 0,
 			gifToolsToCheck = gifTools.length,
-			files = grunt.file.expandFiles(config.src),
+			files = grunt.file.expand({filter: 'isFile'}, config.src),
 			giffiles = files.filter(function(file) {
 				return !!~gif.indexOf(path.extname(file).toLowerCase());
 			});

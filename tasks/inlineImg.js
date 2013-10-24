@@ -3,7 +3,7 @@ var fs      = require('fs'),
     mime    = require('mime');
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
+    var _ = grunt.util._;
 
     // inline images as base64 in css files
     var inline_images_css = function(cssFile, config, cb) {
