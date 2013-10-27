@@ -1,6 +1,5 @@
-var fs      = require('fs'),
-    path    = require('path'),
-    which   = require('which');
+var path    = require('path'),
+    which   = require('which'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {

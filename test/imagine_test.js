@@ -1,5 +1,3 @@
-var grunt = require('grunt');
-
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -20,15 +18,14 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports['imagine'] = {
-  setUp: function(done) {
-    // setup here
-    done();
-  },
-  'helper': function(test) {
-    test.expect(0);
-    // tests here
-    //test.equal(grunt.helper('imagine'), 'imagine!!!', 'should return the correct value.');
-    test.done();
-  }
+exports.imagine = function (test) {
+  test.expect(1);
+  test.ok(true, 'This assertion should pass');
+  test.done();
+};
+
+exports.testSomethingElse = function (test) {
+  test.expect(1);
+  test.equal(false, false, 'This assertion should fail');
+  test.done();
 };

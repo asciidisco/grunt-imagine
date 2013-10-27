@@ -10,7 +10,6 @@ module.exports = function(grunt) {
         var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi,
             css = null,
             img = null,
-            ext = null,
             inlineImgPath = null,
             imgPath = null,
             base = _.isUndefined(config.base) ? '' : config.base,
@@ -77,7 +76,6 @@ module.exports = function(grunt) {
             var src = jQuery(elm).attr('src'),
                 imgPath = null,
                 img = null,
-                ext = null,
                 mimetype = null,
                 inlineImgPath = null;
 
@@ -110,8 +108,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('inlineImg', 'Inlines images as base64 strings in html and css files', function () {
         var config = grunt.config('inlineImg'),
-        dest = config.dest,
-        files = grunt.file.expand(config.src);
+        files = grunt.file.expand({filter: 'isFile'}, config.src);
 
         files.forEach(function (file) {
             var extname = path.extname(file),

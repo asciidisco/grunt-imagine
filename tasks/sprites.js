@@ -1,7 +1,5 @@
 var fs      = require('fs'),
     path    = require('path'),
-    which   = require('which'),
-    util    = require('util'),
     spawn   = require('child_process').spawn,
     async   = require('async');
 
@@ -18,10 +16,8 @@ module.exports = function(grunt) {
             cssFile =  this.data.css,
             spriteMap = this.data.map,
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
-            base = _.isUndefined(this.data.base) ? '' : this.data.base,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
-            relativeAssets = _.isUndefined(this.data.relativeAssets) ? true : !!(this.data.relativeAssets),
             pathSeparator = process.platform === 'win32' ? '\\' : '/';
 
         // check if the margin setting is a number
