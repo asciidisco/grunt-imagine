@@ -1,9 +1,10 @@
 var fs      = require('fs'),
     path    = require('path'),
-    mime    = require('mime');
+    mime    = require('mime'),
+    _       = require('lodash'),
+    jquery  = require('jquery');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
 
     // inline images as base64 in css files
     var inline_images_css = function(cssFile, config, cb) {
@@ -72,8 +73,8 @@ module.exports = function(grunt) {
             processedImages = 0;
 
         // grab all <img/> elements from the document
-        jQuery(html).find('img').each(function (idx, elm) {
-            var src = jQuery(elm).attr('src'),
+        jquery(html).find('img').each(function (idx, elm) {
+            var src = jquery(elm).attr('src'),
                 imgPath = null,
                 img = null,
                 mimetype = null,
@@ -82,7 +83,7 @@ module.exports = function(grunt) {
             // check if the image src is already a data attribute
             if (src.substr(0, 5) !== 'data:') {
                 // figure out the image path and load it
-                imgPath = path.join(path.dirname(htmlFile), src);
+                inlineImgPath = imgPath = path.join(path.dirname(htmlFile), src);
                 img = fs.readFileSync(imgPath, 'base64');
 
                 mimetype = mime.lookup(inlineImgPath);

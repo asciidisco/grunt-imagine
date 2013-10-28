@@ -1,5 +1,6 @@
 var path    = require('path'),
     which   = require('which'),
+    _       = require('lodash'),
     helpers = require('../lib/helpers');
 
 // This task takes care of img optimizations by running a set of
@@ -7,8 +8,7 @@ var path    = require('path'),
 
 
 module.exports = function(grunt) {
-    var _ = grunt.util._,
-        processImageFiles = helpers(grunt).processImageFiles;
+    var processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable png optimization tools 
     var pngTools = [{

@@ -1,3 +1,5 @@
+var grunt = require('grunt');
+
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -18,14 +20,71 @@
     test.ifError(value)
 */
 
-exports.imagine = function (test) {
-  test.expect(1);
-  test.ok(true, 'This assertion should pass');
-  test.done();
-};
-
-exports.testSomethingElse = function (test) {
-  test.expect(1);
-  test.equal(false, false, 'This assertion should fail');
-  test.done();
+exports.imagine = {
+  pngmin: function (test) {
+    var task = 'pngmin';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running "(.+)" task/i)[1], result.stdout);
+      test.done();
+    });
+  },
+  gifmin: function (test) {
+    var task = 'gifmin';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running "(.+)" task/i)[1], result.stdout);
+      test.done();
+    });
+  },
+  jpgmin: function (test) {
+    var task = 'jpgmin';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running "(.+)" task/i)[1], result.stdout);
+      test.done();
+    });
+  },
+  pngnq: function (test) {
+    var task = 'pngnq';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running "(.+)" task/i)[1], result.stdout);
+      test.done();
+    });
+  },
+  inlineImg: function (test) {
+    var task = 'inlineImg';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running "(.+)" task/i)[1], result.stdout);
+      test.done();
+    });
+  },
+  sprites: function (test) {
+    var task = 'sprites';
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--no-color', task]
+    }, function (error, result) {
+      test.expect(1);
+      test.ok(task === result.stdout.match(/running ".+?" \((.+?)\) task/i)[1], result.stdout);
+      test.done();
+    });
+  }
 };

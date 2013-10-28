@@ -1,10 +1,10 @@
 var fs      = require('fs'),
     path    = require('path'),
     spawn   = require('child_process').spawn,
-    async   = require('async');
+    async   = require('async'),
+    _       = require('lodash');
 
 module.exports = function(grunt) {
-    var _ = grunt.util._;
 
     // generates png sprite maps and corresponding css files
     grunt.registerMultiTask('sprites', 'Generate sprite maps and css files from png images', function () {

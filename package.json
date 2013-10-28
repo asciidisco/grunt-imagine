@@ -29,8 +29,15 @@
   "scripts": {
     "test": "grunt test --verbose"
   },
-  "devDependencies": {
+  "dependencies": {
     "grunt": "~0.4.1",
+    "which": "~1.0.5",
+    "lodash": "~2.2.1",
+    "mime": "~1.2.11",
+    "async": "~0.2.9",
+    "jquery": "~1.8.3"
+  },
+  "devDependencies": {
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-watch": "~0.5.3"
