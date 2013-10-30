@@ -254,6 +254,10 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 
 ## Release History
 
+### 0.3.0
++ Now works with grunt 0.4.x thanks to the amazing work of [@alpadev](https://github.com/alpadev)
++ Fixes Issue #26, #29, #18, #11 & #19
+
 ### 0.2.2
 + Fixes Issue #5 (Thx to @dominicbarnes)
 
