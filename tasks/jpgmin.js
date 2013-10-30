@@ -1,11 +1,10 @@
-var fs      = require('fs'),
-    path    = require('path'),
-    which   = require('which');
+var path    = require('path'),
+    which   = require('which'),
+    _       = require('lodash'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._,
-        processImageFiles = helpers(grunt).processImageFiles;
+    var processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable jpeg optimizers
     var jpgTools = [{
@@ -33,12 +32,12 @@ module.exports = function(grunt) {
 			done = this.async(),
 			jpgToolsLookedUp = 0,
 			jpgToolsToCheck = jpgTools.length,
-			files = grunt.file.expand(config.src),
-			jpgfiles = files.filter(function(file) {
+			files = grunt.file.expand({filter: 'isFile'}, config.src),
+			jpgFiles = files.filter(function(file) {
 				return !!~jpg.indexOf(path.extname(file).toLowerCase());
 			});
 
-		// collect informations about which png optimizers
+		// collect informations about which jpg optimizers
 		// are available on the system
 		jpgTools.forEach(function (tool, idx) {
 			which(tool.executable, function (err, info) {
@@ -49,7 +48,7 @@ module.exports = function(grunt) {
 				jpgToolsLookedUp++;
 
 				if (jpgToolsLookedUp === jpgToolsToCheck) {
-					processImageFiles(jpgTools, jpgfiles, dest, quality, 'jpgmin', done);
+					processImageFiles(jpgTools, jpgFiles, dest, quality, 'jpgmin', done);
 				}
 			});
 		});

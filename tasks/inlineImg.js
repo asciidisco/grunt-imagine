@@ -1,16 +1,16 @@
 var fs      = require('fs'),
     path    = require('path'),
-    mime    = require('mime');
+    mime    = require('mime'),
+    _       = require('lodash'),
+    jquery  = require('jquery');
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._;
 
     // inline images as base64 in css files
     var inline_images_css = function(cssFile, config, cb) {
         var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi,
             css = null,
             img = null,
-            ext = null,
             inlineImgPath = null,
             imgPath = null,
             base = _.isUndefined(config.base) ? '' : config.base,
@@ -73,18 +73,17 @@ module.exports = function(grunt) {
             processedImages = 0;
 
         // grab all <img/> elements from the document
-        jQuery(html).find('img').each(function (idx, elm) {
-            var src = jQuery(elm).attr('src'),
+        jquery(html).find('img').each(function (idx, elm) {
+            var src = jquery(elm).attr('src'),
                 imgPath = null,
                 img = null,
-                ext = null,
                 mimetype = null,
                 inlineImgPath = null;
 
             // check if the image src is already a data attribute
             if (src.substr(0, 5) !== 'data:') {
                 // figure out the image path and load it
-                imgPath = path.join(path.dirname(htmlFile), src);
+                inlineImgPath = imgPath = path.join(path.dirname(htmlFile), src);
                 img = fs.readFileSync(imgPath, 'base64');
 
                 mimetype = mime.lookup(inlineImgPath);
@@ -110,8 +109,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('inlineImg', 'Inlines images as base64 strings in html and css files', function () {
         var config = grunt.config('inlineImg'),
-        dest = config.dest,
-        files = grunt.file.expand(config.src);
+        files = grunt.file.expand({filter: 'isFile'}, config.src);
 
         files.forEach(function (file) {
             var extname = path.extname(file),

@@ -1,7 +1,6 @@
-
-var fs      = require('fs'),
-    path    = require('path'),
+var path    = require('path'),
     which   = require('which'),
+    _       = require('lodash'),
     helpers = require('../lib/helpers');
 
 // This task takes care of img optimizations by running a set of
@@ -9,8 +8,7 @@ var fs      = require('fs'),
 
 
 module.exports = function(grunt) {
-    var _ = grunt.utils._,
-        processImageFiles = helpers(grunt).processImageFiles;
+    var processImageFiles = helpers(grunt).processImageFiles;
 
     // list of all executable png optimization tools 
     var pngTools = [{
@@ -48,7 +46,7 @@ module.exports = function(grunt) {
             done = this.async(),
             pngToolsLookedUp = 0,
             pngToolsToCheck = pngTools.length,
-            files = grunt.file.expandFiles(config.src),
+            files = grunt.file.expand({filter: 'isFile'}, config.src),
             pngfiles = files.filter(function(file) {
                 return !!~png.indexOf(path.extname(file).toLowerCase());
             });

@@ -21,26 +21,26 @@
       "url": "http://asciidisco.github.com/grunt-imagine//blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
+  "main": "Gruntfile.js",
   "bin": "bin/grunt-imagine",
   "engines": {
-    "node": ">=0.6.0"
+    "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "grunt lint test --verbose"
+    "test": "grunt test --verbose"
   },
   "dependencies": {
-    "async": "~0.1.22",
-    "grunt": "~0.3.9",
-    "jQuery": ">=1.7.4",
+    "grunt": "~0.4.1",
     "which": "~1.0.5",
-    "mkdirp": ">=0.3.3",
-    "xmlhttprequest": ">=1.4.2",
-    "jsdom": ">=0.2.14",
-    "mime": ">=1.2.7"
+    "lodash": "~2.2.1",
+    "mime": "~1.2.11",
+    "async": "~0.2.9",
+    "jquery": "~1.8.3"
   },
   "devDependencies": {
-    "grunt": "~0.3.9"
+    "grunt-contrib-jshint": "~0.7.0",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.3"
   },
   "keywords": [
     "gruntplugin"
