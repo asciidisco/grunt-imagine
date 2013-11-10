@@ -1,6 +1,7 @@
 var path    = require('path'),
     which   = require('which'),
     _       = require('lodash'),
+    mime    = require('mime'),
     helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
@@ -21,9 +22,6 @@ module.exports = function(grunt) {
             flags: ['<inputFile>', '<outputFile>']
         }];
 
-
-    var jpg = ['.jpg', '.jpeg'];
-
 	// rev task - reving is done in the `output/` directory
 	grunt.registerTask('jpgmin', 'Optimizes .jpg images', function () {
 		var config = grunt.config('jpgmin'),
@@ -34,7 +32,7 @@ module.exports = function(grunt) {
 			jpgToolsToCheck = jpgTools.length,
 			files = grunt.file.expand({filter: 'isFile'}, config.src),
 			jpgFiles = files.filter(function(file) {
-				return !!~jpg.indexOf(path.extname(file).toLowerCase());
+				return mime.lookup(path.extname(file)) === 'image/jpeg';
 			});
 
 		// collect informations about which jpg optimizers

@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       dest: 'test/out'
     },
     jpgmin: {
-      src: ['test/**/*.jpg'],
+      src: ['test/**/*.{jpg,jpeg,jpe}'],
       dest: 'test/out',
       quality: 80 // use lossy JPEG compression at 80% quality
     },
