@@ -35,7 +35,8 @@
     "lodash": "~2.2.1",
     "mime": "~1.2.11",
     "async": "~0.2.9",
-    "jquery": "~1.8.3"
+    "jquery": "~1.8.3",
+    "cheerio": "~0.12.3"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.7.0",
