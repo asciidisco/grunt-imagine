@@ -2,7 +2,7 @@ var fs      = require('fs'),
     path    = require('path'),
     mime    = require('mime'),
     _       = require('lodash'),
-    jquery  = require('jquery');
+    cheerio = require('cheerio');
 
 module.exports = function(grunt) {
 
@@ -73,8 +73,8 @@ module.exports = function(grunt) {
             processedImages = 0;
 
         // grab all <img/> elements from the document
-        jquery(html).find('img').each(function (idx, elm) {
-            var src = jquery(elm).attr('src'),
+        cheerio('img', html).each(function (idx, elm) {
+            var src = elm.attribs.src,
                 imgPath = null,
                 img = null,
                 mimetype = null,
