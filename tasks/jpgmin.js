@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 			jpgToolsToCheck = jpgTools.length,
 			files = grunt.file.expand({filter: 'isFile'}, config.src),
 			jpgFiles = files.filter(function(file) {
-				return helpers().fileType(file) === 'image/jpeg';
+				return helpers(grunt).fileType(file) === 'image/jpeg';
 			});
 
 		// collect informations about which jpg optimizers
