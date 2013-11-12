@@ -20,6 +20,7 @@ module.exports = function(grunt) {
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
+            output = !_.isUndefined(this.data.output) ? this.data.output : "css",
             pathSeparator = path.sep;
 
         // check if the margin setting is a number
@@ -77,6 +78,29 @@ module.exports = function(grunt) {
             return fileContents;
         }
 
+        function generateSCSSFile (imageData, images, placeholder) {
+            var fileContents = '',
+                pathParts = [],
+                spritePathsParts = [],
+                cssPathParts = [];
+
+            spritePathsParts = spriteMap.split(pathSeparator);
+            cssPathParts = cssFile.split(pathSeparator);
+
+            spritePathsParts.forEach(function (pathPart, idx) {
+                if (pathPart !== cssPathParts[idx]) {
+                    pathParts.push(pathPart);
+                }
+            });
+
+            fileContents += "%" + placeholder + ' {' + '\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat;\n' + '}\n\n';
+            imageData.heights.forEach(function (height, idx) {
+                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n    @extend ' + '%' + placeholder + ';\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
+            });
+
+            return fileContents;
+        }
+
         function runSpriteGenerator (images) {
             // spawn a phantom js process
             var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js'), JSON.stringify({'images': images, 'spacing': margin})]);
@@ -94,7 +118,8 @@ module.exports = function(grunt) {
             // and generate the sprite image & css file
             ps.on('exit', function (code) {
                 var incomingData = JSON.parse(externalData.replace('<<<<ENDIMAGE', '')),
-                    dataBuffer = new Buffer(incomingData.image.replace(/^data:image\/png;base64,/, ''), 'base64');
+                    dataBuffer = new Buffer(incomingData.image.replace(/^data:image\/png;base64,/, ''), 'base64'),
+                    stylesData;
 
                 // check if phantom could be called
                 if (code === 127) {
@@ -116,11 +141,20 @@ module.exports = function(grunt) {
                         fs.mkdirSync(path.dirname(cssFile));
                     }
 
+                    switch (output){
+                        case "scss":
+                            stylesData = generateSCSSFile(incomingData, processedImageFiles, path.basename(cssFile));
+                            break;
+                        default:
+                            stylesData = generateCSSFile(incomingData, processedImageFiles);
+                            break;
+                    }
+
                     // write image file
                     fs.writeFile(spriteMap, dataBuffer, done);
 
                     // write css file
-                    fs.writeFile(cssFile, generateCSSFile(incomingData, processedImageFiles), done);
+                    fs.writeFile(cssFile, stylesData, done);
 
                     // output user notification
                     grunt.log.ok('Generated image: ' + spriteMap + ' & CSS file: ' + cssFile);
