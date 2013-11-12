@@ -48,6 +48,24 @@ module.exports = function (grunt) {
         src: ['test/out/img/icons36/*.png'],
         css: 'test/out/css/icons36.css',
         map: 'test/out/img/icons36.png'
+      },
+      icons36_scss: {
+        src: ['test/out/img/icons36/*.png'],
+        css: 'test/out/scss/icons36.scss',
+        map: 'test/out/img/icons36_scss.png',
+        output: 'scss'
+      },
+      icons36_sass: {
+        src: ['test/out/img/icons36/*.png'],
+        css: 'test/out/sass/icons36.sass',
+        map: 'test/out/img/icons36_sass.png',
+        output: 'sass'
+      },
+      icons36_less: {
+        src: ['test/out/img/icons36/*.png'],
+        css: 'test/out/less/icons36.less',
+        map: 'test/out/img/icons36_less.png',
+        output: 'less'
       }
     }
   });
