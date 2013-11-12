@@ -99,6 +99,30 @@ module.exports = function(grunt) {
             return fileContents;
         }
 
+        //TODO: Convert to mixins when extending mixins is supported (https://github.com/less/less.js/issues/1177)
+        function generateLESSFile (imageData, images, placeholder) {
+            var fileContents = '',
+                pathParts = [],
+                spritePathsParts = [],
+                cssPathParts = [];
+
+            spritePathsParts = spriteMap.split(pathSeparator);
+            cssPathParts = cssFile.split(pathSeparator);
+
+            spritePathsParts.forEach(function (pathPart, idx) {
+                if (pathPart !== cssPathParts[idx]) {
+                    pathParts.push(pathPart);
+                }
+            });
+
+            fileContents += "." + placeholder + ' {\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat;\n }'  + '\n\n';
+            imageData.heights.forEach(function (height, idx) {
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
+            });
+
+            return fileContents;
+        }
+
         function runSpriteGenerator (images) {
             // spawn a phantom js process
             var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js'), JSON.stringify({'images': images, 'spacing': margin})]);
@@ -117,6 +141,7 @@ module.exports = function(grunt) {
             ps.on('exit', function (code) {
                 var incomingData = JSON.parse(externalData.replace('<<<<ENDIMAGE', '')),
                     dataBuffer = new Buffer(incomingData.image.replace(/^data:image\/png;base64,/, ''), 'base64'),
+                    placeHolder = path.basename(cssFile).replace(".", "_"),
                     stylesData;
 
                 // check if phantom could be called
@@ -141,10 +166,13 @@ module.exports = function(grunt) {
 
                     switch (output){
                         case "scss":
-                            stylesData = generateSASSFile(incomingData, processedImageFiles, path.basename(cssFile), true);
+                            stylesData = generateSASSFile(incomingData, processedImageFiles, placeHolder, true);
                             break;
                         case "sass":
-                            stylesData = generateSASSFile(incomingData, processedImageFiles, path.basename(cssFile));
+                            stylesData = generateSASSFile(incomingData, processedImageFiles, placeHolder);
+                            break;
+                        case "less":
+                            stylesData = generateLESSFile(incomingData, processedImageFiles, placeHolder);
                             break;
                         default:
                             stylesData = generateCSSFile(incomingData, processedImageFiles);
