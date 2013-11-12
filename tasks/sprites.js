@@ -1,6 +1,8 @@
 var fs      = require('fs'),
     path    = require('path'),
     spawn   = require('child_process').spawn,
+    phantomjs = require('phantomjs'),
+    binPath = phantomjs.path,
     async   = require('async'),
     _       = require('lodash');
 
@@ -18,7 +20,7 @@ module.exports = function(grunt) {
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
-            pathSeparator = process.platform === 'win32' ? '\\' : '/';
+            pathSeparator = path.sep;
 
         // check if the margin setting is a number
         if (_.isNaN(margin)) {
@@ -77,7 +79,7 @@ module.exports = function(grunt) {
 
         function runSpriteGenerator (images) {
             // spawn a phantom js process
-            var ps = spawn('phantomjs', ['--web-security=no', fs.realpathSync(__dirname + '/../lib/phantomspriter.js'), JSON.stringify({'images': images, 'spacing': margin})]);
+            var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js'), JSON.stringify({'images': images, 'spacing': margin})]);
 
             // listen to the processes data stream & copy it
             // kill the process if the '<<<<ENDIMAGE' stop sequence is transmitted
