@@ -108,6 +108,14 @@ module.exports = function(grunt) {
                     );
                     grunt.warn('PhantomJS not found.', code);
                 } else {
+                    if (!fs.existsSync(path.dirname(spriteMap))){
+                        fs.mkdirSync(path.dirname(spriteMap));
+                    }
+
+                    if (!fs.existsSync(path.dirname(cssFile))){
+                        fs.mkdirSync(path.dirname(cssFile));
+                    }
+
                     // write image file
                     fs.writeFile(spriteMap, dataBuffer, done);
 
