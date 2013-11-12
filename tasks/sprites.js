@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
-            output = !_.isUndefined(this.data.output) ? this.data.output : "css",
+            output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css",
             pathSeparator = path.sep;
 
         // check if the margin setting is a number
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
             return fileContents;
         }
 
-        function generateSCSSFile (imageData, images, placeholder) {
+        function generateSASSFile (imageData, images, placeholder, scssSyntax) {
             var fileContents = '',
                 pathParts = [],
                 spritePathsParts = [],
@@ -91,9 +91,9 @@ module.exports = function(grunt) {
                 }
             });
 
-            fileContents += "%" + placeholder + ' {' + '\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat;\n' + '}\n\n';
+            fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n    @extend ' + '%' + placeholder + ';\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
+                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
             });
 
             return fileContents;
@@ -141,7 +141,10 @@ module.exports = function(grunt) {
 
                     switch (output){
                         case "scss":
-                            stylesData = generateSCSSFile(incomingData, processedImageFiles, path.basename(cssFile));
+                            stylesData = generateSASSFile(incomingData, processedImageFiles, path.basename(cssFile), true);
+                            break;
+                        case "sass":
+                            stylesData = generateSASSFile(incomingData, processedImageFiles, path.basename(cssFile));
                             break;
                         default:
                             stylesData = generateCSSFile(incomingData, processedImageFiles);
