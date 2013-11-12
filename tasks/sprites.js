@@ -35,7 +35,6 @@ module.exports = function(grunt) {
                 if (err) {
                     return done(err);
                 }
-
                 processedImageFiles.push(image);
                 done(null, data.toString('base64'));
             });
@@ -43,7 +42,6 @@ module.exports = function(grunt) {
             if (err) {
                 throw new Error(err);
             }
-
             runSpriteGenerator(images);
         });
 
@@ -151,7 +149,7 @@ module.exports = function(grunt) {
                     }
 
                     // write image file
-                    fs.writeFile(spriteMap, dataBuffer, done);
+                    fs.writeFile(spriteMap, dataBuffer);
 
                     // write css file
                     fs.writeFile(cssFile, stylesData, done);
