@@ -125,7 +125,10 @@ module.exports = function(grunt) {
 
         function runSpriteGenerator (images) {
             // spawn a phantom js process
-            var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js'), JSON.stringify({'images': images, 'spacing': margin})]);
+            var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js')]);
+            ps.stdin.setEncoding('utf8');
+            ps.stdin.write(JSON.stringify({'images': images, 'spacing': margin}));
+            ps.stdin.end();
 
             // listen to the processes data stream & copy it
             // kill the process if the '<<<<ENDIMAGE' stop sequence is transmitted
