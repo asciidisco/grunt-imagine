@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 
             fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n' + '}\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
             });
 
             return fileContents;
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 
             fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
+                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  -height + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
             });
 
             return fileContents;
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
 
             fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n }'  + '\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
             });
 
             return fileContents;
