@@ -143,7 +143,7 @@ module.exports = function(grunt) {
                     var glob, destPath;
 
                     if (dest) {
-                        glob = pathToGlob(file),
+                        glob = pathToGlob(file);
                         destPath = path.join(dest, dynamicPath(file, glob));
                         grunt.file.copy(file, destPath);
                     }
