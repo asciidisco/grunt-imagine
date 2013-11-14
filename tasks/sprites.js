@@ -20,8 +20,7 @@ module.exports = function(grunt) {
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
-            output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css",
-            pathSeparator = path.sep;
+            output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css";
 
         // check if the margin setting is a number
         if (_.isNaN(margin)) {
@@ -45,12 +44,19 @@ module.exports = function(grunt) {
             runSpriteGenerator(images);
         });
 
+        function generateBackgroundImagePath () {
+            var imagePath = path.relative(path.dirname(cssFile), spriteMap);
+
+            if (path.sep === "\\"){
+                imagePath = imagePath.replace(/\\/g, "/");
+            }
+
+            return imagePath;
+        }
+
         function generateCSSFile (imageData, images) {
             var imageClasses = '',
-                fileContents = '',
-                pathParts = [],
-                spritePathsParts = [],
-                cssPathParts = [];
+                fileContents = '';
 
             images.forEach(function (image, idx) {
                 if (idx > 0) {
@@ -59,16 +65,7 @@ module.exports = function(grunt) {
                 imageClasses += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(image, '.png');
             });
 
-            spritePathsParts = spriteMap.split(pathSeparator);
-            cssPathParts = cssFile.split(pathSeparator);
-
-            spritePathsParts.forEach(function (pathPart, idx) {
-                if (pathPart !== cssPathParts[idx]) {
-                    pathParts.push(pathPart);
-                }
-            });
-
-            fileContents += imageClasses + ' {' + '\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat;\n' + '}\n\n';
+            fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n' + '}\n\n';
             imageData.heights.forEach(function (height, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
             });
@@ -77,21 +74,9 @@ module.exports = function(grunt) {
         }
 
         function generateSASSFile (imageData, images, placeholder, scssSyntax) {
-            var fileContents = '',
-                pathParts = [],
-                spritePathsParts = [],
-                cssPathParts = [];
+            var fileContents = '';
 
-            spritePathsParts = spriteMap.split(pathSeparator);
-            cssPathParts = cssFile.split(pathSeparator);
-
-            spritePathsParts.forEach(function (pathPart, idx) {
-                if (pathPart !== cssPathParts[idx]) {
-                    pathParts.push(pathPart);
-                }
-            });
-
-            fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
+            fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
             imageData.heights.forEach(function (height, idx) {
                 fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
             });
@@ -101,21 +86,9 @@ module.exports = function(grunt) {
 
         //TODO: Convert to mixins when extending mixins is supported (https://github.com/less/less.js/issues/1177)
         function generateLESSFile (imageData, images, placeholder) {
-            var fileContents = '',
-                pathParts = [],
-                spritePathsParts = [],
-                cssPathParts = [];
+            var fileContents = '';
 
-            spritePathsParts = spriteMap.split(pathSeparator);
-            cssPathParts = cssFile.split(pathSeparator);
-
-            spritePathsParts.forEach(function (pathPart, idx) {
-                if (pathPart !== cssPathParts[idx]) {
-                    pathParts.push(pathPart);
-                }
-            });
-
-            fileContents += "." + placeholder + ' {\n' + '    background: url("../' + pathParts.join('/') + '") no-repeat;\n }'  + '\n\n';
+            fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n }'  + '\n\n';
             imageData.heights.forEach(function (height, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  (height - imageData.maxheight) + 'px;\n' + '}\n\n';
             });
