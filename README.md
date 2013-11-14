@@ -254,6 +254,19 @@ PhantomJS, which the most of you should have installed if you´re using grunt.
 
 ## Release History
 
+### 0.3.1
++ Added SCSS, SASS, LESS output option to sprites task [Thx to @LaurentGoderre] (https://github.com/LaurentGoderre)
+  - e1699cc2 Converted the image input from command line argument to stdin input [@LaurentGoderre]
+  - 6802570c Fix #34 by making the image path relative to the css path [@LaurentGoderre]
+  - 526fe343 Added the sass and less example tasks [@LaurentGoderre]
+  - 0cf20e7e Added the LESS output functionality [@LaurentGoderre]
+  - 9ea3e851 Added SASS support [@LaurentGoderre]
+  - a6afbe47 Fixed bug that prevents running multiple sprite targets [@LaurentGoderre]
+  - f9d6924e Added the SCSS output option [@LaurentGoderre]
+  - 61655844 Create output directories if they don't exist (required for Windows) [@LaurentGoderre]
+  - d1c8fbc7 Added npm phantomjs for easier redistribution [@LaurentGoderre]
+
+
 ### 0.3.0
 + Now works with grunt 0.4.x thanks to the amazing work of [@alpadev](https://github.com/alpadev)
 + Fixes Issue #26, #29, #18, #11 & #19
