@@ -109,13 +109,47 @@ module.exports = function(grunt) {
 
     grunt.registerTask('inlineImg', 'Inlines images as base64 strings in html and css files', function () {
         var config = grunt.config('inlineImg'),
-        files = grunt.file.expand({filter: 'isFile'}, config.src);
+            dest = config.dest || '',
+            files = grunt.file.expand({filter: 'isFile'}, config.src),
+            pathToGlob = function (path) {
+                var src = config.src,
+                    globs = [];
+
+                switch (grunt.util.kindOf(src)) {
+                    case 'string':
+                        if (grunt.file.isMatch(src, path)) {
+                            globs.push(src);
+                        }
+                        break;
+
+                    case 'array':
+                        src.forEach(function (pattern) {
+                            if (grunt.file.isMatch(pattern, path)) {
+                                globs.push(pattern);
+                            }
+                        });
+                }
+
+                return globs;
+            },
+            dynamicPath = function (path, glob) {
+                glob = _.isString(glob) ? glob : glob[0];
+                return path.substring(glob.indexOf('*'));
+            };
 
         files.forEach(function (file) {
             var extname = path.extname(file),
-            fileWriter = function (file, fileContents) {
-                fs.writeFileSync(file, fileContents, 'utf-8');
-            };
+                fileWriter = function (file, fileContents) {
+                    var glob, destPath;
+
+                    if (dest) {
+                        glob = pathToGlob(file),
+                        destPath = path.join(dest, dynamicPath(file, glob));
+                        grunt.file.copy(file, destPath);
+                    }
+
+                    fs.writeFileSync(dest ? destPath : file, fileContents, 'utf-8');
+                };
 
             // inline images in css files
             if (extname === '.css') {
