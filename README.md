@@ -159,7 +159,7 @@ inlineImg: {
 
 ### sprites (multi)task
 Imagine provides the ability to generate sprite maps and the
-corresponding css files. At the moment, only *.png files can be processed.
+corresponding css, scss, sass or less files. At the moment, only *.png files can be processed.
 
 
 ```javascript
@@ -195,7 +195,32 @@ the generated css file would look like this:
 
 ```
 
-Additionally you can add a css class prefix:
+This task doesn´t depend on any external libraries, except for
+PhantomJS, which the most of you should have installed if you´re using grunt.
+
+#### options
+
+##### margin
+
+The images are be sprited vertically, so you might need to set
+up some margin to give´em some space:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['src/img/icons36/*.png'],
+          css: 'src/css/icons36.css',
+          map: 'src/img/icons36.png',
+          margin: 15
+      }
+  }
+```
+
+Now you´re images will be places with 15 px of space between them.
+
+##### classPrefix
+
+You can add a prefix to every class by specifying this option
 
 ```javascript
   sprites: {
@@ -208,7 +233,7 @@ Additionally you can add a css class prefix:
   }
 ```
 
-which would generate smth. like this:
+which would generate something like this:
 
 ```css
 .Icon-MyImage1, .Icon-MyImage2 {
@@ -225,8 +250,11 @@ which would generate smth. like this:
 
 ```
 
-The images will be sprited vertically, so you might need to set
-up some margin to give´em some space:
+##### output
+
+The task has the ability to output the CSS portion in multiple format. The default format is straight CSS. However you can choose to output to SASS, SCSS or LESS placeholders to include to your stylesheets. The possible values for this options are `css`, `scss`, `sass`, `less`.
+
+For example, the following configuration:
 
 ```javascript
   sprites: {
@@ -234,16 +262,29 @@ up some margin to give´em some space:
           src: ['src/img/icons36/*.png'],
           css: 'src/css/icons36.css',
           map: 'src/img/icons36.png',
-          classPrefix: 'Icon',
-          margin: 15
+          output: 'scss'
       }
   }
 ```
 
-Now you´re images will be places with 15 px of space between them.
+would generate something like this:
 
-This task doesn´t depend on any external libraries, except for
-PhantomJS, which the most of you should have installed if you´re using grunt.
+```css
+%icons36 {
+    background: url("../img/icon36.png") no-repeat;
+}
+
+%Icon-MyImage1 {
+    @extend %icons36;
+    background-position: 0 -432px;
+}
+
+%Icon-MyImage2 {
+    @extend %icons36;
+    background-position: 0 -396px;
+}
+
+```
 
 ## Future (TODO)
 * Better documentation (Near future!)
