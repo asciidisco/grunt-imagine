@@ -2,7 +2,8 @@ var fs      = require('fs'),
     path    = require('path'),
     mime    = require('mime'),
     _       = require('lodash'),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    helpers = require('../lib/helpers');
 
 module.exports = function(grunt) {
 
@@ -109,46 +110,22 @@ module.exports = function(grunt) {
 
     grunt.registerTask('inlineImg', 'Inlines images as base64 strings in html and css files', function () {
         var config = grunt.config('inlineImg'),
+            src = config.src,
             dest = config.dest || '',
-            files = grunt.file.expand({filter: 'isFile'}, config.src),
-            pathToGlob = function (path) {
-                var src = config.src,
-                    globs = [];
-
-                switch (grunt.util.kindOf(src)) {
-                    case 'string':
-                        if (grunt.file.isMatch(src, path)) {
-                            globs.push(src);
-                        }
-                        break;
-
-                    case 'array':
-                        src.forEach(function (pattern) {
-                            if (grunt.file.isMatch(pattern, path)) {
-                                globs.push(pattern);
-                            }
-                        });
-                }
-
-                return globs;
-            },
-            dynamicPath = function (path, glob) {
-                glob = _.isString(glob) ? glob : glob[0];
-                return path.substring(glob.indexOf('*'));
-            };
+            files = grunt.file.expand({filter: 'isFile'}, src),
+            pathFromSrc = helpers(grunt).pathFromSrc;
 
         files.forEach(function (file) {
             var extname = path.extname(file),
                 fileWriter = function (file, fileContents) {
-                    var glob, destPath;
+                    var fileOutput;
 
                     if (dest) {
-                        glob = pathToGlob(file);
-                        destPath = path.join(dest, dynamicPath(file, glob));
-                        grunt.file.copy(file, destPath);
+                        fileOutput = path.join(dest, pathFromSrc(src, file));
+                        grunt.file.copy(file, fileOutput);
                     }
 
-                    fs.writeFileSync(dest ? destPath : file, fileContents, 'utf-8');
+                    fs.writeFileSync(dest ? fileOutput : file, fileContents, 'utf-8');
                 };
 
             // inline images in css files
