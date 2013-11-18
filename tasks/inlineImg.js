@@ -2,7 +2,7 @@ var fs      = require('fs'),
     path    = require('path'),
     mime    = require('mime'),
     _       = require('lodash'),
-    jquery  = require('jquery');
+    cheerio = require('cheerio');
 
 module.exports = function(grunt) {
 
@@ -70,11 +70,12 @@ module.exports = function(grunt) {
     // inline images as base64 in html files
     var inline_images_html = function(htmlFile, config, cb) {
         var html = fs.readFileSync(htmlFile, 'utf-8'),
-            processedImages = 0;
+            processedImages = 0,
+            $ = cheerio.load(html);
 
         // grab all <img/> elements from the document
-        jquery(html).find('img').each(function (idx, elm) {
-            var src = jquery(elm).attr('src'),
+        $('img').each(function (idx, elm) {
+            var src = $(elm).attr('src'),
                 imgPath = null,
                 img = null,
                 mimetype = null,
@@ -93,12 +94,13 @@ module.exports = function(grunt) {
                     // i hate to write this, but can´t wrap my head around
                     // how to do this better: DO NOTHING
                 } else {
-                    html = html.replace(src, 'data:' + mimetype + ';base64,' + img);
+                    $(elm).attr('src', 'data:' + mimetype + ';base64,' + img);
                     processedImages++;
                 }
             }
 
         });
+        html = $.html();
 
         // check if a callback is given
         if (_.isFunction(cb)) {
