@@ -35,7 +35,7 @@ module.exports = function(grunt) {
                     return done(err);
                 }
                 processedImageFiles.push(image);
-                done(null, data.toString('base64'));
+                done(null, {file: image, data: data.toString('base64')});
             });
         }, function (err, images) {
             if (err) {
@@ -62,12 +62,12 @@ module.exports = function(grunt) {
                 if (idx > 0) {
                     imageClasses += ', ';
                 }
-                imageClasses += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(image, '.png');
+                imageClasses += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(image.file, '.png');
             });
 
             fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n' + '}\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ' {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + ' {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
             });
 
             return fileContents;
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 
             fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  -height + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
+                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  -height + 'px' + (scssSyntax ? ';\n }' : '') + '\n\n';
             });
 
             return fileContents;
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
 
             fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n }'  + '\n\n';
             imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx], '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  -height + 'px;\n' + '}\n\n';
             });
 
             return fileContents;
@@ -142,16 +142,16 @@ module.exports = function(grunt) {
 
                     switch (output){
                         case "scss":
-                            stylesData = generateSASSFile(incomingData, processedImageFiles, placeHolder, true);
+                            stylesData = generateSASSFile(incomingData, images, placeHolder, true);
                             break;
                         case "sass":
-                            stylesData = generateSASSFile(incomingData, processedImageFiles, placeHolder);
+                            stylesData = generateSASSFile(incomingData, images, placeHolder);
                             break;
                         case "less":
-                            stylesData = generateLESSFile(incomingData, processedImageFiles, placeHolder);
+                            stylesData = generateLESSFile(incomingData, images, placeHolder);
                             break;
                         default:
-                            stylesData = generateCSSFile(incomingData, processedImageFiles);
+                            stylesData = generateCSSFile(incomingData, images);
                             break;
                     }
 
