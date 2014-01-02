@@ -66,6 +66,12 @@ module.exports = function (grunt) {
         css: 'test/out/less/icons36.less',
         map: 'test/out/img/icons36_less.png',
         output: 'less'
+      },
+      icon36_stylus: {
+        src: ['test/out/img/icons36/*.png'],
+        css: 'test/out/stylus/icons36.styl',
+        map: 'test/out/img/icons36_stylus.png',
+        output: 'stylus'
       }
     }
   });
