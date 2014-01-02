@@ -96,6 +96,17 @@ module.exports = function(grunt) {
             return fileContents;
         }
 
+        function generateStylusFile (imageData, images, placeholder) {
+            var fileContents = '';
+
+            fileContents += '$' + placeholder + '\n  background: url("' + generateBackgroundImagePath() + '") no-repeat\n\n';
+            imageData.heights.forEach(function (height, idx) {
+                fileContents += '$' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + '\n  @extend $' + placeholder + '\n  background-position: 0 ' + ( height > 0 ? -height + 'px' : 0 ) + '\n\n';
+            });
+
+            return fileContents;
+        }
+
         function runSpriteGenerator (images) {
             // spawn a phantom js process
             var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js')]);
@@ -149,6 +160,9 @@ module.exports = function(grunt) {
                             break;
                         case "less":
                             stylesData = generateLESSFile(incomingData, images, placeHolder);
+                            break;
+                        case "stylus":
+                            stylesData = generateStylusFile(incomingData, images, placeHolder);
                             break;
                         default:
                             stylesData = generateCSSFile(incomingData, images);
