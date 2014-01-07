@@ -298,10 +298,10 @@ would generate something like this:
 
 ### 0.3.3
 + Added Stylus ouput option to sprites task [Thx to @alpadev] (https://github.com/alpadev)
- - 96cc7cda updates: README.md [@alpadev]
- - 894a7022	adds: stylus generator [@alpadev]
- - c4554cbf	adds: stylus test case [@alpadev]
- - 84d20850	Don't output CSS unit for value 0 [@LaurentGoderre]
+ - f25cb4e1 updates: README.md [@alpadev]
+ - 894a7022 adds: stylus generator [@alpadev]
+ - c4554cbf adds: stylus test case [@alpadev]
+ - 84d20850 Don't output CSS unit for value 0 [@LaurentGoderre]
 
 ### 0.3.2
 + Replaced the jQuery dependency with Cheerio [Thx to @LaurentGoderre] (https://github.com/LaurentGoderre)
