@@ -159,7 +159,7 @@ inlineImg: {
 
 ### sprites (multi)task
 Imagine provides the ability to generate sprite maps and the
-corresponding css, scss, sass or less files. At the moment, only *.png files can be processed.
+corresponding css, scss, sass, less or stylus files. At the moment, only *.png files can be processed.
 
 
 ```javascript
@@ -252,7 +252,7 @@ which would generate something like this:
 
 ##### output
 
-The task has the ability to output the CSS portion in multiple format. The default format is straight CSS. However you can choose to output to SASS, SCSS or LESS placeholders to include to your stylesheets. The possible values for this options are `css`, `scss`, `sass`, `less`.
+The task has the ability to output the CSS portion in multiple format. The default format is straight CSS. However you can choose to output to SASS, SCSS, LESS or Stylus placeholders to include to your stylesheets. The possible values for this options are `css`, `scss`, `sass`, `less`, `stylus`.
 
 For example, the following configuration:
 
@@ -295,6 +295,22 @@ would generate something like this:
 
 ## Release History
 
+
+### 0.3.3
++ Added Stylus ouput option to sprites task [Thx to @alpadev] (https://github.com/alpadev)
+ - 96cc7cda updates: README.md [@alpadev]
+ - 894a7022	adds: stylus generator [@alpadev]
+ - c4554cbf	adds: stylus test case [@alpadev]
+ - 84d20850	Don't output CSS unit for value 0 [@LaurentGoderre]
+
+### 0.3.2
++ Replaced the jQuery dependency with Cheerio [Thx to @LaurentGoderre] (https://github.com/LaurentGoderre)
+ - 3fae23c0 Added verbose logging to min tasks as per #47 [@LaurentGoderre]
+ - daa8e8b7 Replaced the jQuery dependency with Cheerio to solve #28 [@LaurentGoderre]
+ - b65645c6 Fixed an async problem with the spriting [@LaurentGoderre]
+ - f33f2f96 Added the SCSS support documentation [@LaurentGoderre]
+ - 6c8af22e Fixed the sprites background offset being output in reverse [@LaurentGoderre]
+
 ### 0.3.1
 + Added SCSS, SASS, LESS output option to sprites task [Thx to @LaurentGoderre] (https://github.com/LaurentGoderre)
   - e1699cc2 Converted the image input from command line argument to stdin input [@LaurentGoderre]
@@ -306,7 +322,6 @@ would generate something like this:
   - f9d6924e Added the SCSS output option [@LaurentGoderre]
   - 61655844 Create output directories if they don't exist (required for Windows) [@LaurentGoderre]
   - d1c8fbc7 Added npm phantomjs for easier redistribution [@LaurentGoderre]
-
 
 ### 0.3.0
 + Now works with grunt 0.4.x thanks to the amazing work of [@alpadev](https://github.com/alpadev)
