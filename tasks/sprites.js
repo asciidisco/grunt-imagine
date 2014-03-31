@@ -66,19 +66,31 @@ module.exports = function(grunt) {
             });
 
             fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n' + '}\n\n';
-            imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + ' {\n' + '    background-position: 0 ' +  -height + ( height === 0 ? "" : 'px') + ';\n' + '}\n\n';
+            imageData.images.forEach(function (meta, idx) {
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
+                    ' {\n' +
+                    '    width: ' + intToPixel(meta.width) + ';\n' +
+                    '    height: ' + intToPixel(meta.height) + ';\n' +
+                    '    background-position: 0 ' + intToPixel(-meta.offsetY) + ';\n' +
+                    '}\n\n';
             });
 
             return fileContents;
         }
 
         function generateSASSFile (imageData, images, placeholder, scssSyntax) {
-            var fileContents = '';
+            var fileContents = '',
+                colon = (scssSyntax ? ';' : '') + '\n';
 
             fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
-            imageData.heights.forEach(function (height, idx) {
-                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + (scssSyntax ? ' {' : '') + '\n    @extend ' + '%' + placeholder + (scssSyntax ? ' ;' : '') + '\n' + '    background-position: 0 ' +  -height + ( height === 0 ? "" : 'px') + (scssSyntax ? ';\n }' : '') + '\n\n';
+            imageData.images.forEach(function (meta, idx) {
+                fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
+                    (scssSyntax ? ' {' : '') + '\n' +
+                        '    @extend ' + '%' + placeholder + colon +
+                        '    width: ' + intToPixel(meta.width) + colon +
+                        '    height: ' + intToPixel(meta.height) + colon +
+                        '    background-position: 0 ' + intToPixel(-meta.offsetY) + colon +
+                    (scssSyntax ? '}' : '') + '\n\n';
             });
 
             return fileContents;
@@ -89,8 +101,13 @@ module.exports = function(grunt) {
             var fileContents = '';
 
             fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n }'  + '\n\n';
-            imageData.heights.forEach(function (height, idx) {
-                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + ':extend(.' + placeholder + ') {\n' + '    background-position: 0 ' +  -height + ( height === 0 ? "" : 'px') + ';\n' + '}\n\n';
+            imageData.images.forEach(function (meta, idx) {
+                fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
+                    ':extend(.' + placeholder + ') {\n' +
+                    '    width: ' + intToPixel(meta.width) + ';\n' +
+                    '    height: ' + intToPixel(meta.height) + ';\n' +
+                    '    background-position: 0 ' + intToPixel(-meta.offsetY) + ';\n' +
+                    '}\n\n';
             });
 
             return fileContents;
@@ -100,11 +117,19 @@ module.exports = function(grunt) {
             var fileContents = '';
 
             fileContents += '$' + placeholder + '\n  background: url("' + generateBackgroundImagePath() + '") no-repeat\n\n';
-            imageData.heights.forEach(function (height, idx) {
-                fileContents += '$' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') + '\n  @extend $' + placeholder + '\n  background-position: 0 ' + ( height > 0 ? -height + 'px' : 0 ) + '\n\n';
+            imageData.images.forEach(function (meta, idx) {
+                fileContents += '$' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
+                    '\n  @extend $' + placeholder +
+                    '\n  width: ' + intToPixel(meta.width) +
+                    '\n  height: ' + intToPixel(meta.height) +
+                    '\n  background-position: 0 ' + intToPixel(-meta.offsetY) + '\n\n';
             });
 
             return fileContents;
+        }
+
+        function intToPixel (int) {
+            return int !== 0 ? int + 'px' : 0;
         }
 
         function runSpriteGenerator (images) {
@@ -153,19 +178,19 @@ module.exports = function(grunt) {
 
                     switch (output){
                         case "scss":
-                            stylesData = generateSASSFile(incomingData, images, placeHolder, true);
+                            stylesData = generateSASSFile(incomingData.meta, images, placeHolder, true);
                             break;
                         case "sass":
-                            stylesData = generateSASSFile(incomingData, images, placeHolder);
+                            stylesData = generateSASSFile(incomingData.meta, images, placeHolder);
                             break;
                         case "less":
-                            stylesData = generateLESSFile(incomingData, images, placeHolder);
+                            stylesData = generateLESSFile(incomingData.meta, images, placeHolder);
                             break;
                         case "stylus":
-                            stylesData = generateStylusFile(incomingData, images, placeHolder);
+                            stylesData = generateStylusFile(incomingData.meta, images, placeHolder);
                             break;
                         default:
-                            stylesData = generateCSSFile(incomingData, images);
+                            stylesData = generateCSSFile(incomingData.meta, images);
                             break;
                     }
 
