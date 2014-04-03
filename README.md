@@ -286,6 +286,46 @@ would generate something like this:
 
 ```
 
+##### dimensions
+
+This will add the CSS "width" and "height" properties to the tasks' output. This setting is **false** by default.
+
+For example, the following configuration:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['test/out/img/icons36/*.png'],
+          css: 'test/out/scss/icons36.scss',
+          map: 'test/out/img/icons36.png',
+          output: 'scss',
+          dimensions: true
+      }
+  }
+```
+
+would generate something like this:
+
+```css
+%icons36 {
+    background: url("../img/icons36.png") no-repeat;
+ }
+
+%sprite_01 {
+    @extend %icons36;
+    width: 32px;
+    height: 32px;
+    background-position: 0 0;
+}
+
+%sprite_02 {
+    @extend %icons36;
+    width: 48px;
+    height: 48px;
+    background-position: 0 -32px;
+}
+```
+
 ## Future (TODO)
 * Better documentation (Near future!)
 * JS only PNG optimizing
