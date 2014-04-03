@@ -47,13 +47,15 @@ module.exports = function (grunt) {
       icons36: {
         src: ['test/out/img/icons36/*.png'],
         css: 'test/out/css/icons36.css',
-        map: 'test/out/img/icons36.png'
+        map: 'test/out/img/icons36.png',
+        dimensions: true
       },
       icons36_scss: {
         src: ['test/out/img/icons36/*.png'],
         css: 'test/out/scss/icons36.scss',
         map: 'test/out/img/icons36_scss.png',
-        output: 'scss'
+        output: 'scss',
+        dimensions: false
       },
       icons36_sass: {
         src: ['test/out/img/icons36/*.png'],
