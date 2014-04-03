@@ -20,7 +20,8 @@ module.exports = function(grunt) {
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
-            output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css";
+            output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css",
+            addSize = !!this.data.dimensions;
 
         // check if the margin setting is a number
         if (_.isNaN(margin)) {
@@ -69,8 +70,8 @@ module.exports = function(grunt) {
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     ' {\n' +
-                    '    width: ' + intToPixel(meta.width) + ';\n' +
-                    '    height: ' + intToPixel(meta.height) + ';\n' +
+                    (addSize && '    width: ' + intToPixel(meta.width) + ';\n' || '') +
+                    (addSize && '    height: ' + intToPixel(meta.height) + ';\n' || '') +
                     '    background-position: 0 ' + intToPixel(-meta.offsetY) + ';\n' +
                     '}\n\n';
             });
@@ -87,8 +88,8 @@ module.exports = function(grunt) {
                 fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     (scssSyntax ? ' {' : '') + '\n' +
                         '    @extend ' + '%' + placeholder + colon +
-                        '    width: ' + intToPixel(meta.width) + colon +
-                        '    height: ' + intToPixel(meta.height) + colon +
+                        (addSize && '    width: ' + intToPixel(meta.width) + colon || '') +
+                        (addSize && '    height: ' + intToPixel(meta.height) + colon || '') +
                         '    background-position: 0 ' + intToPixel(-meta.offsetY) + colon +
                     (scssSyntax ? '}' : '') + '\n\n';
             });
@@ -104,8 +105,8 @@ module.exports = function(grunt) {
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     ':extend(.' + placeholder + ') {\n' +
-                    '    width: ' + intToPixel(meta.width) + ';\n' +
-                    '    height: ' + intToPixel(meta.height) + ';\n' +
+                    (addSize && '    width: ' + intToPixel(meta.width) + ';\n' || '') +
+                    (addSize && '    height: ' + intToPixel(meta.height) + ';\n' || '') +
                     '    background-position: 0 ' + intToPixel(-meta.offsetY) + ';\n' +
                     '}\n\n';
             });
@@ -120,8 +121,8 @@ module.exports = function(grunt) {
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '$' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     '\n  @extend $' + placeholder +
-                    '\n  width: ' + intToPixel(meta.width) +
-                    '\n  height: ' + intToPixel(meta.height) +
+                    (addSize && '\n  width: ' + intToPixel(meta.width) || '') +
+                    (addSize && '\n  height: ' + intToPixel(meta.height) || '') +
                     '\n  background-position: 0 ' + intToPixel(-meta.offsetY) + '\n\n';
             });
 
