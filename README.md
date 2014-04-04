@@ -109,7 +109,7 @@ jpgmin: {
 }
 ```
 
-If you would like to use lossy compression via `jpegoptim`'s `-m` flag, you can 
+If you would like to use lossy compression via `jpegoptim`'s `-m` flag, you can
 add a `quality` configuration option:
 
 ```javascript
@@ -286,6 +286,46 @@ would generate something like this:
 
 ```
 
+##### dimensions
+
+This will add the CSS "width" and "height" properties to the tasks' output. This setting is **false** by default.
+
+For example, the following configuration:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['test/out/img/icons36/*.png'],
+          css: 'test/out/scss/icons36.scss',
+          map: 'test/out/img/icons36.png',
+          output: 'scss',
+          dimensions: true
+      }
+  }
+```
+
+would generate something like this:
+
+```css
+%icons36 {
+    background: url("../img/icons36.png") no-repeat;
+ }
+
+%sprite_01 {
+    @extend %icons36;
+    width: 32px;
+    height: 32px;
+    background-position: 0 0;
+}
+
+%sprite_02 {
+    @extend %icons36;
+    width: 48px;
+    height: 48px;
+    background-position: 0 -32px;
+}
+```
+
 ## Future (TODO)
 * Better documentation (Near future!)
 * JS only PNG optimizing
@@ -295,6 +335,10 @@ would generate something like this:
 
 ## Release History
 
+### 0.3.4
++ Added width and height properties to the spriter output [@alpadev] (https://github.com/alpadev)
+ - 85a04f58 Updates the generator functions to adopt the changes introduced to the spriter script. See #52 [@alpadev]
+ - 6416c26d Rewrote most of it.. to accomplish #52 (also the old code been a lil dirty imo :)) [@alpadev]
 
 ### 0.3.3
 + Added Stylus ouput option to sprites task [Thx to @alpadev] (https://github.com/alpadev)
