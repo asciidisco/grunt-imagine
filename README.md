@@ -335,6 +335,9 @@ would generate something like this:
 
 ## Release History
 
+### 0.3.41
++ bump dependencies [@alpadev] (https://github.com/alpadev)
+
 ### 0.3.4
 + Added width and height properties to the spriter output [@alpadev] (https://github.com/alpadev)
  - 85a04f58 Updates the generator functions to adopt the changes introduced to the spriter script. See #52 [@alpadev]
