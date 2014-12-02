@@ -335,6 +335,9 @@ would generate something like this:
 
 ## Release History
 
+### 0.3.42
++ bump dependencies [@alpadev] (https://github.com/alpadev)
+
 ### 0.3.41
 + bump dependencies [@alpadev] (https://github.com/alpadev)
 
