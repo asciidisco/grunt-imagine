@@ -17,6 +17,7 @@ module.exports = function(grunt) {
             processedImageFiles = [],
             cssFile = this.data.css,
             spriteMap = this.data.map,
+            staticImagePath = this.data.staticImagePath,
             margin = !_.isUndefined(this.data.margin) ? parseInt(this.data.margin, 10) : 0,
             externalData = '',
             classPrefix = _.isUndefined(this.data.classPrefix) ? '' : this.data.classPrefix,
@@ -49,8 +50,8 @@ module.exports = function(grunt) {
             var imagePath = path.relative(path.dirname(cssFile), spriteMap);
 
             // check if the user registered a static path for images in the config
-            if (data.staticImagePath) {
-                imagePath = data.staticImagePath;
+            if (!!staticImagePath) {
+                imagePath = staticImagePath;
             }
 
             if (path.sep === "\\"){
@@ -71,7 +72,7 @@ module.exports = function(grunt) {
                 imageClasses += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(image.file, '.png');
             });
 
-            fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath(this.data) + '") no-repeat;\n' + '}\n\n';
+            fileContents += imageClasses + ' {' + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n' + '}\n\n';
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     ' {\n' +
@@ -88,7 +89,7 @@ module.exports = function(grunt) {
             var fileContents = '',
                 colon = (scssSyntax ? ';' : '') + '\n';
 
-            fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath(this.data) + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
+            fileContents += "%" + placeholder + (scssSyntax ? ' {' : '') + '\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat' + (scssSyntax ? ';\n }' : '') + '\n\n';
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '%' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     (scssSyntax ? ' {' : '') + '\n' +
@@ -106,7 +107,7 @@ module.exports = function(grunt) {
         function generateLESSFile (imageData, images, placeholder) {
             var fileContents = '';
 
-            fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath(this.data) + '") no-repeat;\n }'  + '\n\n';
+            fileContents += "." + placeholder + ' {\n' + '    background: url("' + generateBackgroundImagePath() + '") no-repeat;\n }'  + '\n\n';
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '.' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     ':extend(.' + placeholder + ') {\n' +
@@ -122,7 +123,7 @@ module.exports = function(grunt) {
         function generateStylusFile (imageData, images, placeholder) {
             var fileContents = '';
 
-            fileContents += '$' + placeholder + '\n  background: url("' + generateBackgroundImagePath(this.data) + '") no-repeat\n\n';
+            fileContents += '$' + placeholder + '\n  background: url("' + generateBackgroundImagePath() + '") no-repeat\n\n';
             imageData.images.forEach(function (meta, idx) {
                 fileContents += '$' + (classPrefix === '' ? '' : classPrefix + '-') + path.basename(images[idx].file, '.png') +
                     '\n  @extend $' + placeholder +
