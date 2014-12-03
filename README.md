@@ -367,6 +367,9 @@ The output would look like the following:
 
 ## Release History
 
+### 0.3.51
++ Small bugfix for `staticImagePath` property
+
 ### 0.3.5
 + added `staticImagePath` described in [#60](https://github.com/asciidisco/grunt-imagine/issues/60)
 
