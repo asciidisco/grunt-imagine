@@ -325,7 +325,7 @@ would generate something like this:
 }
 ```
 
-### statticImagePath
+##### staticImagePath
 
 If you want to set a specific (static) CSS output path (maybe because you´re fiddling around with your `<base href>`),
 you can do so by extending the config with a `staticImagePath` like so:
