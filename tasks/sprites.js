@@ -48,6 +48,11 @@ module.exports = function(grunt) {
         function generateBackgroundImagePath () {
             var imagePath = path.relative(path.dirname(cssFile), spriteMap);
 
+            // check if the user registered a static path for images in the config
+            if (this.data.staticImagePath) {
+                imagePath = this.data.staticImagePath;
+            }
+
             if (path.sep === "\\"){
                 imagePath = imagePath.replace(/\\/g, "/");
             }

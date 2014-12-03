@@ -192,7 +192,6 @@ the generated css file would look like this:
 .MyImage2 {
     background-position: 0 -396px;
 }
-
 ```
 
 This task doesn´t depend on any external libraries, except for
@@ -326,6 +325,37 @@ would generate something like this:
 }
 ```
 
+If you want to set a specific (static) CSS output path (maybe because you´re fiddling around with your `<base href>`),
+you can do so by extending the config with a `staticImagePath` like so:
+
+```javascript
+  sprites: {
+      icons36: {
+          src: ['src/img/icons36/*.png'],
+          css: 'src/css/icons36.css',
+          map: 'src/img/icons36.png',
+          staticImagePath: 'public/img/'
+      }
+  }
+```
+
+The output would look like the following:
+
+```css
+.MyImage1, .Icon-MyImage2 {
+    background: url("public/img/icon36.png") no-repeat;
+}
+
+.MyImage1 {
+    background-position: 0 -432px;
+}
+
+.MyImage2 {
+    background-position: 0 -396px;
+}
+
+```
+
 ## Future (TODO)
 * Better documentation (Near future!)
 * JS only PNG optimizing
@@ -334,6 +364,9 @@ would generate something like this:
 * GIF to PNG conversion (if smaller)
 
 ## Release History
+
+### 0.3.5
++ added `staticImagePath` described in [#60](https://github.com/asciidisco/grunt-imagine/issues/60)
 
 ### 0.3.42
 + bump dependencies [@alpadev] (https://github.com/alpadev)
