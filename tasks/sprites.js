@@ -46,7 +46,7 @@ module.exports = function(grunt) {
             runSpriteGenerator(images);
         });
 
-        function generateBackgroundImagePath (data) {
+        function generateBackgroundImagePath () {
             var imagePath = path.relative(path.dirname(cssFile), spriteMap);
 
             // check if the user registered a static path for images in the config
