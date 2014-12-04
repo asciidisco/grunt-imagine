@@ -367,7 +367,7 @@ The output would look like the following:
 
 ## Release History
 
-### 0.3.51 && 0.3.52
+### 0.3.51 && 0.3.52 && 0.3.53
 + Small bugfix (with big impact) for `staticImagePath` property
 
 ### 0.3.5
