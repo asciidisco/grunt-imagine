@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 
             // check if the user registered a static path for images in the config
             if (!!staticImagePath) {
-                imagePath = staticImagePath + path.sep + spriteMap;
+                imagePath = staticImagePath + path.sep + path.basename(spriteMap);
             }
 
             if (path.sep === "\\"){
