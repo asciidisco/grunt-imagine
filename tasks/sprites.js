@@ -24,27 +24,11 @@ module.exports = function(grunt) {
             output = !_.isUndefined(this.data.output) ? this.data.output.toLowerCase() : "css",
             addSize = !!this.data.dimensions;
 
-        // check if the margin setting is a number
-        if (_.isNaN(margin)) {
-            margin = 0;
+        function intToPixel (int) {
+            return int !== 0 ? int + 'px' : 0;
         }
 
-        // load all files that should be sprited
-        async.map(images, function (image, done) {
-            // read image file contents
-            fs.readFile(image, function (err, data) {
-                if (err) {
-                    return done(err);
-                }
-                processedImageFiles.push(image);
-                done(null, {file: image, data: data.toString('base64')});
-            });
-        }, function (err, images) {
-            if (err) {
-                throw new Error(err);
-            }
-            runSpriteGenerator(images);
-        });
+
 
         function generateBackgroundImagePath () {
             var imagePath = path.relative(path.dirname(cssFile), spriteMap);
@@ -135,10 +119,6 @@ module.exports = function(grunt) {
             return fileContents;
         }
 
-        function intToPixel (int) {
-            return int !== 0 ? int + 'px' : 0;
-        }
-
         function runSpriteGenerator (images) {
             // spawn a phantom js process
             var ps = spawn(binPath, ['--web-security=no', path.resolve(__dirname, '../lib/phantomspriter.js')]);
@@ -212,6 +192,28 @@ module.exports = function(grunt) {
                 }
             });
         }
+
+        // check if the margin setting is a number
+        if (_.isNaN(margin)) {
+            margin = 0;
+        }
+
+        // load all files that should be sprited
+        async.map(images, function (image, done) {
+            // read image file contents
+            fs.readFile(image, function (err, data) {
+                if (err) {
+                    return done(err);
+                }
+                processedImageFiles.push(image);
+                done(null, {file: image, data: data.toString('base64')});
+            });
+        }, function (err, images) {
+            if (err) {
+                throw new Error(err);
+            }
+            runSpriteGenerator(images);
+        });
 
     });
 
